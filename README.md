@@ -1,2 +1,2 @@
 # Web_Mobile
-The repository contains the code of the mobile application for the project
+The repository contains the code of the mobile application of the project
