@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
         shadowRadius : 5,
         backgroundColor: "#009688",
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        marginBottom: 10,
+        width: 200,
+        alignSelf: 'center'
     },
     text:{
         color: "#fff",

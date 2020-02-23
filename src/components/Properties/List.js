@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Item from "./Item";
-import {FlatList, ScrollView, StyleSheet, View} from "react-native";
+import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
+import {withNavigation} from "react-navigation";
 import ThemeButton from "../Common/ThemeButton";
 
 const DATA = {
@@ -43,24 +44,28 @@ const DATA = {
 };
 
 
-const List = props => {
+const List = ({navigation}) => {
     const [toShow, setToShow] = useState(2);
 
     const handlePress = () => {
         setToShow(toShow + 4);
     };
     if (DATA) {
-
         return (
             <>
-                    <FlatList style={styles.list}
-                              data={DATA.items}
-                              keyExtractor={item => item.id}
-                              renderItem={({item}) => <Item item={item}/>}
-                              ListFooterComponent={DATA.items.length > toShow ?
-                                  <ThemeButton title="View more" pressHandler={handlePress}/>
-                                  : null}
-                    />
+                <FlatList style={styles.list}
+                          data={DATA.items}
+                          keyExtractor={item => item.id}
+                          renderItem={({item}) =>
+                              <TouchableOpacity style={styles.item}
+                                                onPress={() =>
+                                                    navigation.navigate('Property', {item: item})}>
+                                  <Item item={item}/>
+                              </TouchableOpacity>}
+                          ListFooterComponent={DATA.items.length > toShow ?
+                              <ThemeButton title="View more" pressHandler={handlePress}/>
+                              : null}
+                />
             </>
         );
 
@@ -70,7 +75,18 @@ const List = props => {
 const styles = StyleSheet.create({
     list: {
         marginVertical: 10
+    },
+    item: {
+        height: 150,
+        flex: 1,
+        flexDirection: 'row',
+        marginVertical: 10,
+        backgroundColor: "white",
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 10
+
     }
 });
 
-export default List;
+export default withNavigation(List);
