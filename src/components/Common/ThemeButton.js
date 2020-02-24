@@ -19,10 +19,12 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         width: 200,
-        alignSelf: 'center'
+        alignSelf: 'center',
+
     },
     text:{
         color: "#fff",
+        fontFamily: 'montserratMed'
     }
 });
 

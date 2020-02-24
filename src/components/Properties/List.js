@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Item from "./Item";
 import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
-import {withNavigation} from "react-navigation";
 import ThemeButton from "../Common/ThemeButton";
 
 const DATA = {
@@ -59,7 +58,7 @@ const List = ({navigation}) => {
                           renderItem={({item}) =>
                               <TouchableOpacity style={styles.item}
                                                 onPress={() =>
-                                                    navigation.navigate('Property', {item: item})}>
+                                                    navigation.navigate('Property', {property: item})}>
                                   <Item item={item}/>
                               </TouchableOpacity>}
                           ListFooterComponent={DATA.items.length > toShow ?
@@ -89,4 +88,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(List);
+export default List;

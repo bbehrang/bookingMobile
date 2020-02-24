@@ -1,53 +1,30 @@
-import React, {useState} from 'react';
-import {Image, ScrollView, Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import ThemeButton from "../Common/ThemeButton";
+import React from 'react';
+import {FlatList} from "react-native";
+import Info from "./Info";
+import Item from "./Comments/Item";
 
-const Property = ({item}) => {
-    const [isFullDescHidden, setIsFullDescHidden] = useState(true);
+const DATA = [
+    {
+        "id": "1",
+        "text": "string",
+        "created_date": "2020-02-23T20:01:13.653Z",
+        "mood_type": 0,
+        "author": {
+            "first_name": "John",
+            "last_name": "Doe",
+            "avatar_url": "https://gravatar.com/avatar/54c91979efae1b4cab6f031fbe6a8903?s=400&d=robohash&r=x"
+        }
+    }
+];
+const Property = ({property}) => {
     return (
-        <ScrollView>
-            <Image source={{uri: item.cover_image_url}} style={styles.image}/>
-            <ThemeButton title='Reserve'/>
-                <Text style={[styles.infoItem, styles.name]}>{item.name}</Text>
-                <Text style={styles.infoItem}>
-                    {
-                        isFullDescHidden ?
-                        item.description.substring(0, 300) + "..."
-                        : item.description
-                    }
-                </Text>
-                <TouchableOpacity onPress={() => {
-                    setIsFullDescHidden(false);
-                }}>
-                    { isFullDescHidden ? <Text style={styles.showFullText}>Show full text</Text> : null}
-                </TouchableOpacity>
-        </ScrollView>
+        <FlatList
+            ListHeaderComponent={<Info property={property}/>}
+            data={DATA}
+            renderItem={({item}) => <Item item={item}/>}
+            keyExtractor={(item) => item.id}
+        />
     );
 };
-const styles = StyleSheet.create({
-    image:{
-        width: '100%',
-        height: 150,
-        marginBottom: 20
-    },
-    info:{
-        marginHorizontal: 20,
-        alignSelf: 'center',
-        marginTop: 20
-    },
-    infoItem:{
-        marginHorizontal: 10
-    },
-    name: {
-        fontWeight: 'bold'
-    },
-    showFullText:{
-        alignSelf: 'center',
-        color: '#009688',
-        marginVertical: 15,
-        borderWidth: 0.5,
-        borderColor : '#009688',
-        padding: 5,
-    }
-});
+
 export default Property;
