@@ -15,8 +15,8 @@ const Stack = createStackNavigator();
 
 const PropertiesNavigator = () => {
     return(
-        <Stack.Navigator initialRouteName = "Propertiess">
-            <Stack.Screen name="Propertiess" component={PropertiesScreen} options={{headerShown: false}}/>
+        <Stack.Navigator initialRouteName = "PropertiesHome">
+            <Stack.Screen name="PropertiesHome" component={PropertiesScreen} options={{headerShown: false}}/>
             <Stack.Screen name="Property" component={PropertyScreen} />
         </Stack.Navigator>
     );
