@@ -18,8 +18,12 @@ const styles = StyleSheet.create({
     info: {
         flex: 1,
         marginLeft: 10,
+
     },
-    infoItem: {},
+    infoItem: {
+        fontFamily: 'montserratMed',
+        fontSize: 13
+    },
     image: {
         width: 150,
         height: 150,

@@ -2,12 +2,12 @@ import React from 'react';
 import List from "../components/Properties/List";
 import {Text, View} from "react-native";
 
-const PropertyListScreen = props => {
+const PropertiesScreen = ({navigation}) => {
     return (
         <>
-            <List/>
+            <List navigation={navigation}/>
         </>
     );
 };
 
-export default PropertyListScreen;
+export default PropertiesScreen;

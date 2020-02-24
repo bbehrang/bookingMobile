@@ -13,7 +13,7 @@ const App = props => {
     useEffect(() => {
         Font.loadAsync({
              montserratMed: require('./assets/fonts/Montserrat-Medium.ttf'),
-            'montBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
+             montserratBold: require('./assets/fonts/Montserrat-SemiBold.ttf')
         }).then(() => setIsFontLoaded(true)).catch(e => console.log(e));
     }, []);
     if (isFontLoaded) {

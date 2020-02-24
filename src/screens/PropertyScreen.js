@@ -1,11 +1,11 @@
 import React from 'react';
 import Property from "../components/Properties/Property";
 
-const PropertyScreen = ({navigation}) => {
-    const item = navigation.getParam('item');
+const PropertyScreen = ({route, navigation}) => {
+    const {property} = route.params;
     return (
         <>
-            <Property item={item} />
+            <Property property={property} />
         </>
     );
 };
