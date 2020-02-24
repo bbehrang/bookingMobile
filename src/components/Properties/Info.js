@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, Text, View, StyleSheet, TouchableOpacity} from "react-native";
+import {Image, Text, StyleSheet, TouchableOpacity} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
 import CommentList from './Comments/List';
+import Add from "./Comments/Add";
 
 const Info = ({property}) => {
     const [isFullDescHidden, setIsFullDescHidden] = useState(true);
@@ -25,6 +26,7 @@ const Info = ({property}) => {
             }}>
                 { isFullDescHidden ? <Text style={styles.showFullText}>Show full text</Text> : null}
             </TouchableOpacity>
+
         </>
     );
 };
@@ -44,7 +46,8 @@ const styles = StyleSheet.create({
         fontFamily: 'montserratMed'
     },
     name: {
-        fontWeight: 'bold'
+        fontFamily: 'montserratBold',
+        marginVertical: 5
     },
     showFullText:{
         alignSelf: 'center',
