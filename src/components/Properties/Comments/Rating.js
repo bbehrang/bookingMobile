@@ -9,8 +9,8 @@ const Rating = ({rating, style}) => {
         }
     });
     return (
-        <View style={{flexDirection:'row', alignItems:'center'}}>
-            <Text>{mood.value}</Text>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent: 'flex-end'}}>
+            <Text style={{fontFamily: 'montserratBold', color:'black', fontSize: 12}}>{mood.value}</Text>
             <View style={{flexDirection:'row'}}>
                 <View style={[styles.stars, {backgroundColor: mood.color}]}/>
                 <View style={[styles.stars, {backgroundColor: mood.color}]}/>
@@ -25,7 +25,7 @@ const Rating = ({rating, style}) => {
 const styles = StyleSheet.create({
     stars :{
         width: 5,
-        height: 5,
+        height: 8,
         marginLeft: 5,
     }
 });
