@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, TextInput, KeyboardAvoidingView} from "react-native";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import ThemeButton from "../../Common/ThemeButton";
 
 const Add = props => {
