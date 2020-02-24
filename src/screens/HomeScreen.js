@@ -2,12 +2,14 @@ import React, {useEffect} from "react";
 import {View, Text, StyleSheet, Button} from "react-native";
 import axios from 'axios';
 import useApi from "../hooks/useApi";
+import Header from "../components/Header/Header";
+
 const HomeScreen = () => {
     //const [get, results, error] = useApi();
     const makeRequest = async () => {
-        try{
+        try {
             const response = await axios.get("https://api.booking.knine.xyz/api/properties", {
-                headers:{
+                headers: {
                     accept: 'application/json'
                 }
 
@@ -19,11 +21,15 @@ const HomeScreen = () => {
 
     };
 
- return (
-  <View style={styles.container}>
-      <Button onPress={makeRequest} title='hello'/>
-  </View>
- );
+    return (
+        <>
+            <Header/>
+            <View style={styles.container}>
+
+                <Button onPress={makeRequest} title='hello'/>
+            </View>
+        </>
+    );
 };
 const styles = StyleSheet.create({
     container: {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, TextInput, KeyboardAvoidingView} from "react-native";
+import {View, StyleSheet, Image, TextInput} from "react-native";
 import ThemeButton from "../../Common/ThemeButton";
 
 const Add = props => {

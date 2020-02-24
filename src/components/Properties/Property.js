@@ -3,6 +3,7 @@ import {FlatList} from "react-native";
 import Info from "./Info";
 import Comment from "./Comments/Item";
 import Add from "./Comments/Add";
+import Header from "../Header/Header";
 
 const DATA = [
     {
@@ -41,14 +42,15 @@ const DATA = [
 ];
 const Property = ({property}) => {
     return (
-
-        <FlatList
-            ListHeaderComponent={<Info property={property}/>}
-            ListFooterComponent={<Add />}
-            data={DATA}
-            renderItem={({item}) => <Comment item={item}/>}
-            keyExtractor={(item) => item.id}
-        />
+        <>
+            <FlatList
+                ListHeaderComponent={<Info property={property}/>}
+                ListFooterComponent={<Add/>}
+                data={DATA}
+                renderItem={({item}) => <Comment item={item}/>}
+                keyExtractor={(item) => item.id}
+            />
+        </>
     );
 };
 

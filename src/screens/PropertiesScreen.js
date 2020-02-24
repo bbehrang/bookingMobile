@@ -1,10 +1,12 @@
 import React from 'react';
 import List from "../components/Properties/List";
 import {Text, View} from "react-native";
+import Header from "../components/Header/Header";
 
-const PropertiesScreen = ({navigation}) => {
+const PropertiesScreen = ({route, navigation}) => {
     return (
         <>
+            <Header/>
             <List navigation={navigation}/>
         </>
     );

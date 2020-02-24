@@ -19,6 +19,7 @@
     "react-native-screens": "2.0.0-alpha.12",
     "@react-navigation/native": "^5.0.7",
     "@react-navigation/drawer": "^5.0.7",
+    "@react-navigation/stack": "^5.0.9",
     "axios": "^0.19.2"
   },
   "devDependencies": {
