@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Item from "./Item";
 import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
+import Header from "../Header/Header";
 
 const DATA = {
     "total": 10,
