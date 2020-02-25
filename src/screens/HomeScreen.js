@@ -3,22 +3,10 @@ import {View, Text, StyleSheet, Button} from "react-native";
 import axios from 'axios';
 import useApi from "../hooks/useApi";
 import Header from "../components/Header/Header";
-
 const HomeScreen = () => {
-    //const [get, results, error] = useApi();
+    const [get, results, error] = useApi();
     const makeRequest = async () => {
-        try {
-            const response = await axios.get("https://api.booking.knine.xyz/api/properties", {
-                headers: {
-                    accept: 'application/json'
-                }
-
-            });
-            console.log(response);
-        } catch (e) {
-            console.log(e);
-        }
-
+        await get('/properties');
     };
 
     return (

@@ -40,13 +40,15 @@ const styles = StyleSheet.create({
     },
     info:{
         marginHorizontal: 23,
-        alignSelf: 'center',
+        alignSelf: 'stretch',
         marginTop: 22,
         elevation: 2,
         backgroundColor: 'white',
         borderRadius: 5,
         paddingVertical: 5,
-        paddingHorizontal:10
+        paddingHorizontal:10,
+        flexGrow: 1,
+
     },
     sectionTitle: {
         fontFamily: 'montserratBold',

@@ -21,7 +21,7 @@ const Add = props => {
                 </View>
 
             </View>
-            <View style={{height:70}}>
+            <View style={{height: 70}}>
                 <ThemeButton title='Send' customStyles={styles.button}/>
             </View>
 
@@ -33,10 +33,11 @@ const styles = StyleSheet.create({
     container: {
         margin: 24,
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems: 'center',
+
     },
     avatar: {
-        width:50,
+        width: 50,
         height: 50,
         backgroundColor: "#C4C4C4",
         borderRadius: 40
@@ -54,15 +55,15 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         flexGrow: 1
     },
-    input:{
+    input: {
         borderRadius: 3,
         borderWidth: 0.5,
         borderColor: "#CECECE",
-        flexGrow:1,
+        flexGrow: 1,
         paddingHorizontal: 5
     },
     button: {
-        width:85,
+        width: 85,
         height: 33,
         alignSelf: 'flex-start',
         marginLeft: 24
