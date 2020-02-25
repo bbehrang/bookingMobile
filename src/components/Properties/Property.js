@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {FlatList, KeyboardAvoidingView, Platform, StatusBar, StyleSheet} from "react-native";
 import Info from "./Info";
 import Comment from "./Comments/Item";
 import Add from "./Comments/Add";
@@ -42,16 +42,20 @@ const DATA = [
 ];
 const Property = ({property}) => {
     return (
-        <>
             <FlatList
                 ListHeaderComponent={<Info property={property}/>}
                 ListFooterComponent={<Add/>}
                 data={DATA}
+                extraData={property}
                 renderItem={({item}) => <Comment item={item}/>}
                 keyExtractor={(item) => item.id}
+                style={styles.property}
             />
-        </>
     );
 };
-
+const styles = StyleSheet.create({
+    property:{
+        paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+    }
+});
 export default Property;

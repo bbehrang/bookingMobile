@@ -4,9 +4,6 @@ import ThemeButton from "../../Common/ThemeButton";
 
 const Add = props => {
     const [comment, setComment] = useState('');
-    useEffect(() => {
-        setComment('');
-    }, [comment]);
     return (
         <>
             <View style={styles.container}>
@@ -22,15 +19,19 @@ const Add = props => {
                         autoCorrect={false}
                     />
                 </View>
+
             </View>
-            <ThemeButton title='Send'/>
+            <View style={{height:70}}>
+                <ThemeButton title='Send' customStyles={styles.button}/>
+            </View>
+
         </>
 
     );
 };
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
+        margin: 24,
         flexDirection: 'row',
         alignItems:'center'
     },
@@ -50,7 +51,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     inputContainer: {
-        marginHorizontal: 10
+        marginLeft: 10,
+        flexGrow: 1
+    },
+    input:{
+        borderRadius: 3,
+        borderWidth: 0.5,
+        borderColor: "#CECECE",
+        flexGrow:1,
+        paddingHorizontal: 5
+    },
+    button: {
+        width:85,
+        height: 33,
+        alignSelf: 'flex-start',
+        marginLeft: 24
     }
 });
 export default Add;

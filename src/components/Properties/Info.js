@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {Image, Text, StyleSheet, TouchableOpacity, View} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
 import CommentList from './Comments/List';
 import Add from "./Comments/Add";
@@ -12,38 +12,52 @@ const Info = ({property}) => {
     return (
         <>
             <Image source={{uri: property.cover_image_url}} style={styles.image}/>
-            <ThemeButton title='Reserve'/>
-            <Text style={[styles.infoItem, styles.name]}>{property.name}</Text>
-            <Text style={styles.infoItem}>
-                {
-                    isFullDescHidden ?
-                        property.description.substring(0, 300) + "..."
-                        : property.description
-                }
-            </Text>
-            <TouchableOpacity onPress={() => {
-                setIsFullDescHidden(false);
-            }}>
-                { isFullDescHidden ? <Text style={styles.showFullText}>Show full text</Text> : null}
-            </TouchableOpacity>
+            <View style={styles.info}>
+                <Text style={[styles.infoItem, styles.name]}>{property.name}</Text>
+                <TouchableOpacity onPress={() => setIsFullDescHidden(!isFullDescHidden)} activeOpacity={0.8}>
+                    <Text style={styles.infoItem}>
+                        {
+                            isFullDescHidden ?
+                                property.description.substring(0, 300) + "..."
+                                : property.description
+                        }
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <ThemeButton title='Reserve' customStyles={styles.button}/>
+            </View>
+            <Text style={styles.sectionTitle}>Comments</Text>
 
         </>
     );
 };
 const styles = StyleSheet.create({
     image:{
-        width: '100%',
-        height: 150,
+        alignSelf: 'stretch',
+        height: 144,
         marginBottom: 20
     },
     info:{
-        marginHorizontal: 20,
+        marginHorizontal: 23,
         alignSelf: 'center',
-        marginTop: 20
+        marginTop: 22,
+        elevation: 2,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        paddingVertical: 5,
+        paddingHorizontal:10
+    },
+    sectionTitle: {
+        fontFamily: 'montserratBold',
+        marginLeft: 24,
+        fontSize: 15
     },
     infoItem:{
         marginHorizontal: 10,
-        fontFamily: 'montserratMed'
+        fontFamily: 'montserratMed',
+        marginBottom: 5,
+        lineHeight:20
     },
     name: {
         fontFamily: 'montserratBold',
@@ -57,6 +71,13 @@ const styles = StyleSheet.create({
         borderColor : '#009688',
         padding: 10,
         fontFamily: 'montserratMed'
+    },
+    button:{
+        alignSelf: 'flex-end',
+        width:113,
+        height:37,
+        marginRight: 23,
+        marginTop: 19
     }
 });
 export default Info;
