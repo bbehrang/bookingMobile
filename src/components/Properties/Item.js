@@ -1,41 +1,29 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, View, StyleSheet} from "react-native";
+import {Image, Text, TouchableOpacity, View, StyleSheet, ImageBackground} from "react-native";
 
 const Item = ({item}) => {
     return (
-        <>
-            <Image source={{uri: item.cover_image_url}} style={styles.image}/>
-            <View style={styles.info}>
-                <Text style={[styles.infoItem, styles.name]}>{item.name}</Text>
-                <Text style={styles.infoItem}>{item.description ? item.description.substring(0, 100) : ""}...</Text>
-                <Text style={[styles.infoItem, styles.viewMore]}>View more</Text>
-            </View>
-        </>
+            <ImageBackground source={{uri: item.cover_image_url}} style={styles.imageContainer} imageStyle={styles.image}>
+                <Text style={styles.name}>{item.name}</Text>
+            </ImageBackground>
     );
 };
 const styles = StyleSheet.create({
-
-    info: {
-        flex: 1,
-        marginLeft: 10,
-
+    imageContainer:{
+        width: '100%',
+        flex:1,
+        justifyContent: 'flex-end'
     },
-    infoItem: {
-        fontFamily: 'montserratMed',
-        fontSize: 13
-    },
-    image: {
-        width: 150,
-        height: 150,
-        alignSelf: 'center',
-        flex: 1,
+    image:{
+        borderRadius: 5,
         resizeMode: 'cover'
     },
-    name: {
-        fontWeight: 'bold'
-    },
-    viewMore: {
-        color: "#009688"
+    name:{
+        fontFamily: 'montserratBold',
+        color: 'white',
+        marginHorizontal: 10,
+        marginBottom: 10
+
     }
 });
 export default Item;

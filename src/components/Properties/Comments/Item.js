@@ -12,7 +12,6 @@ const Item = ({item}) => {
     }, [item]);
     return (
         <>
-
             <View style={styles.container}>
                 <View style={styles.avatar}>
                     <Image source={{uri: item.author.avatar_url}} style={styles.avatarImage}/>
@@ -40,9 +39,16 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         flexDirection: 'row',
-        marginHorizontal: 10,
         marginVertical: 10,
         flexWrap: 'wrap',
+        marginHorizontal: 23,
+        alignSelf: 'center',
+        marginTop: 22,
+        elevation: 2,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal:10
     },
     avatar: {
         width:50,

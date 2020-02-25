@@ -4,7 +4,6 @@ import Header from "../components/Header/Header";
 
 const PropertyScreen = ({route, navigation}) => {
     const {property} = route.params;
-
     return (
         <>
             <Property property={property} />

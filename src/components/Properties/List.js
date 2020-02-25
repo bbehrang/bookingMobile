@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Item from "./Item";
-import {FlatList, StyleSheet, TouchableOpacity} from "react-native";
+import {FlatList, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
 import Header from "../Header/Header";
 
@@ -52,21 +52,21 @@ const List = ({navigation}) => {
     };
     if (DATA) {
         return (
-            <>
                 <FlatList style={styles.list}
                           data={DATA.items}
                           keyExtractor={item => item.id}
+                          ListFooterComponent={<View style={{height:24}}></View>}
                           renderItem={({item}) =>
                               <TouchableOpacity style={styles.item}
                                                 onPress={() =>
-                                                    navigation.navigate('Property', {property: item})}>
+                                                    navigation.navigate('Search', {
+                                                        screen: "Property",
+                                                        params: {property: item}
+                                                    })}>
                                   <Item item={item}/>
                               </TouchableOpacity>}
-                          ListFooterComponent={DATA.items.length > toShow ?
-                              <ThemeButton title="View more" pressHandler={handlePress}/>
-                              : null}
                 />
-            </>
+
         );
 
     }
@@ -74,18 +74,20 @@ const List = ({navigation}) => {
 
 const styles = StyleSheet.create({
     list: {
-        marginVertical: 10
+        paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+        flex: 1,
+        flexGrow: 1,
+        backgroundColor: "#E5E5E5",
+
     },
     item: {
-        height: 150,
         flex: 1,
-        flexDirection: 'row',
-        marginVertical: 10,
-        backgroundColor: "white",
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 10
-
+        height:140,
+        marginHorizontal: 33,
+        marginVertical: 18,
+        shadowColor: 'rgba(0, 0, 0, 0.14)',
+        elevation: Platform.OS === 'ios' ? 0 : 3,
+        borderRadius:140
     }
 });
 

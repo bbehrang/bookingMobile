@@ -6,7 +6,6 @@ import Header from "../components/Header/Header";
 const PropertiesScreen = ({route, navigation}) => {
     return (
         <>
-            <Header/>
             <List navigation={navigation}/>
         </>
     );

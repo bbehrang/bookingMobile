@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from "./src/screens/HomeScreen";
 import PropertyScreen from "./src/screens/PropertyScreen";
 import PropertiesScreen from "./src/screens/PropertiesScreen";
+import {Ionicons} from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import {Text, View} from "react-native";
 import {createStackNavigator} from "@react-navigation/stack";
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-
-
-const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const PropertyStack = createStackNavigator();
 
 const PropertiesNavigator = () => {
     return(
-        <Stack.Navigator initialRouteName = "PropertiesHome">
-            <Stack.Screen name="PropertiesHome" component={PropertiesScreen} options={{headerShown: false}}/>
-            <Stack.Screen name="Property" component={PropertyScreen} />
-        </Stack.Navigator>
+        <PropertyStack.Navigator initialRouteName = "Properties" headerMode='none'>
+            <PropertyStack.Screen name="Properties" component={PropertiesScreen} />
+            <PropertyStack.Screen name="Property" component={PropertyScreen} />
+        </PropertyStack.Navigator>
     );
 };
 
@@ -33,10 +32,36 @@ const App = props => {
     if (isFontLoaded) {
         return (
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName="Properties">
-                    <Drawer.Screen name="Home" component={HomeScreen}/>
-                    <Drawer.Screen name="Properties" component={PropertiesNavigator} options={{unmountOnBlur: true}}/>
-                </Drawer.Navigator>
+                <Tab.Navigator
+                    initialRouteName="Search"
+                    screenOptions={({route}) => ({
+                    tabBarIcon: ({focused, color, size}) => {
+                        let iconName;
+                        if (route.name === 'Search') {
+                            iconName = 'ios-search'
+                        } else if (route.name === 'Reservations') {
+                            iconName = 'ios-calendar'
+                        }
+                        else if (route.name === 'Profile') {
+                            iconName = 'ios-person'
+                        }
+                        else if (route.name === 'More') {
+                            iconName = 'ios-more'
+                        }
+                        // You can return any component that you like here!
+                        return <Ionicons name={iconName} size={size} color={color}/>;
+                    },
+                })}
+                               tabBarOptions={{
+                                   activeTintColor: 'white',
+                                   inactiveTintColor: '#303030',
+                                   style: {backgroundColor: '#39A298', borderTopColor: 'white'},
+                               }}>
+                    <Tab.Screen name="Search" component={PropertiesNavigator}/>
+                    <Tab.Screen name="Reservations" component={HomeScreen}/>
+                    <Tab.Screen name="Profile" component={PropertiesScreen}/>
+                    <Tab.Screen name="More" component={PropertiesScreen}/>
+                </Tab.Navigator>
             </NavigationContainer>
         );
     } else return <View><Text>Loading</Text></View>

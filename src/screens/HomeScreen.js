@@ -23,7 +23,6 @@ const HomeScreen = () => {
 
     return (
         <>
-            <Header/>
             <View style={styles.container}>
 
                 <Button onPress={makeRequest} title='hello'/>
