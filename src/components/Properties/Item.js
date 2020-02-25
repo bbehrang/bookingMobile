@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     imageContainer:{
         width: '100%',
         flex:1,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+
     },
     image:{
         borderRadius: 5,
