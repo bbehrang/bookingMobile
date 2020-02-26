@@ -9,12 +9,13 @@ import Loading from "../Common/Loading";
 
 const Property = ({property}) => {
     const [get, loading, results, error] = useApi();
-    const id = property.id;
+    const path = property ? `/properties/${property.id}/comments` : null;
     useEffect(() => {
         async function fetchData() {
-            const response = get('/properties/', {id: id});
+            const response = get(path);
         }
-        fetchData();
+        if(property)
+            fetchData();
     }, [property]);
     if (error) return <Error/>;
     if (loading) return <Loading/>;

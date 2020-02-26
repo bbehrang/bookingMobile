@@ -17,7 +17,7 @@ const Info = ({property}) => {
                 <TouchableOpacity onPress={() => setIsFullDescHidden(!isFullDescHidden)} activeOpacity={0.8}>
                     <Text style={styles.infoItem}>
                         {
-                            isFullDescHidden ?
+                            isFullDescHidden && property.description.length > 300 ?
                                 property.description.substring(0, 300) + "..."
                                 : property.description
                         }
