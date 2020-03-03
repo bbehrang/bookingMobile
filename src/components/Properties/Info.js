@@ -28,6 +28,7 @@ const Info = ({property}) => {
                 <ThemeButton title='Reserve' customStyles={styles.button}/>
             </View>
             <Text style={styles.sectionTitle}>Comments</Text>
+            <Add id={property.id} />
 
         </>
     );

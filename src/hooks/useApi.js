@@ -7,7 +7,6 @@ export default () => {
     const [loading, setLoading] = useState(false);
 
     const get = async (path, parameters) => {
-        console.log('fetching');
         setLoading(true);
         try {
             const response = await Api.get(path, {
@@ -23,5 +22,20 @@ export default () => {
             setError(e);
         }
     };
-    return [get, loading, results, error];
+    const post = async(path, data) => {
+        console.log('posting');
+        console.log(path);
+        console.log(data);
+        setLoading(true);
+        try{
+            const response = await Api.post(path, {...data});
+            console.log(response);
+            setLoading(false);
+            setResults(response.data);
+        } catch (e) {
+            console.log(e);
+            setError(e);
+        }
+    };
+    return [loading, results, error, get, post];
 };

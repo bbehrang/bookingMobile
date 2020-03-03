@@ -8,8 +8,7 @@ import useApi from "../../hooks/useApi";
 import Loading from "../Common/Loading";
 
 const List = ({navigation}) => {
-    const [properties, setProperties] = useState([]);
-    const [get, loading, results, error] = useApi();
+    const [loading, results, error, get] = useApi();
     useEffect(() => {
         async function fetchData(){
             const response = await get('/properties');

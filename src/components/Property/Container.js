@@ -48,6 +48,7 @@ const Container = ({property}) => {
         ).start();
     };
     return (
+
         <Animated.View style={[styles.container, {transform: [{translateY: shift}]}]}>
             <Property property={property}/>
         </Animated.View>
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
         left: 0,
         position: 'absolute',
         top: 0,
-        width: '100%'
+        width: '100%',
+        zIndex: 2
     }
 });
 export default Container;

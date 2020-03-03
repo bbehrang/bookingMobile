@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, TextInput} from "react-native";
 import ThemeButton from "../../Common/ThemeButton";
+import useApi from "../../../hooks/useApi";
 
-const Add = props => {
+const Add = ({path}) => {
+
+    const submitComment = () => {
+        post(path, {text: comment});
+    };
     const [comment, setComment] = useState('');
+    const [loading, error, results,, post] = useApi();
     return (
         <>
             <View style={styles.container}>
@@ -16,13 +22,13 @@ const Add = props => {
                         value={comment}
                         onChangeText={text => setComment(text)}
                         placeholder='Leave your feedback here'
-                        autoCorrect={false}
+                        autoCorrect={true}
                     />
                 </View>
 
             </View>
             <View style={{height: 70}}>
-                <ThemeButton title='Send' customStyles={styles.button}/>
+                <ThemeButton title='Send' customStyles={styles.button} pressHandler={submitComment}/>
             </View>
 
         </>
@@ -52,15 +58,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     inputContainer: {
-        marginLeft: 10,
-        flexGrow: 1
+        width: '90%',
+        flex:1,
     },
     input: {
         borderRadius: 3,
         borderWidth: 0.5,
         borderColor: "#CECECE",
         flexGrow: 1,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        marginHorizontal: 10
     },
     button: {
         width: 85,
