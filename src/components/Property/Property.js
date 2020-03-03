@@ -8,8 +8,9 @@ import Error from "../Common/Error";
 import Loading from "../Common/Loading";
 
 const Property = ({property}) => {
-    const [get, loading, results, error] = useApi();
+    const [loading, results, error, get] = useApi();
     const path = property ? `/properties/${property.id}/comments` : null;
+
     useEffect(() => {
         async function fetchData() {
             const response = get(path);
@@ -22,8 +23,8 @@ const Property = ({property}) => {
     return (
         <FlatList
             ListHeaderComponent={<Info property={property}/>}
-            ListFooterComponent={<Add/>}
-            data={results.comments}
+            ListFooterComponent={<Add path={path}/>}
+            data={results}
             extraData={property}
             renderItem={({item}) => <Comment item={item}/>}
             keyExtractor={(item) => item.id}

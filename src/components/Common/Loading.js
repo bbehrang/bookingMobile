@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, View} from "react-native";
 
 const Loading = props => {
