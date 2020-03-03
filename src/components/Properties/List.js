@@ -1,25 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Item from "./Item";
 import {FlatList, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
-import ThemeButton from "../Common/ThemeButton";
-import Header from "../Header/Header";
-import Error from "../Common/Error";
-import useApi from "../../hooks/useApi";
-import Loading from "../Common/Loading";
+import PropertiesContext from "../../context/PropertiesContext";
+
 
 const List = ({navigation}) => {
-    const [loading, results, error, get] = useApi();
-    useEffect(() => {
-        async function fetchData(){
-            const response = await get('/properties');
-        }
-        fetchData();
-    }, []);
-    if(error) return <Error/>;
-    if(loading) return <Loading/>;
+        const properties = useContext(PropertiesContext);
         return (
                 <FlatList style={styles.list}
-                          data={results}
+                          data={properties}
                           keyExtractor={item => item.id}
                           ListFooterComponent={<View style={{height:24}}></View>}
                           renderItem={({item}) =>

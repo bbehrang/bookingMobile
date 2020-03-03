@@ -7,6 +7,7 @@ export default () => {
     const [loading, setLoading] = useState(false);
 
     const get = async (path, parameters) => {
+        console.log("fetching");
         setLoading(true);
         try {
             const response = await Api.get(path, {
