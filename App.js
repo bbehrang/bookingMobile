@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from "./src/screens/HomeScreen";
-import SigninScreen from "./src/screens/SigninScreen";
+import SignInScreen from "./src/screens/SignInScreen";
+import SignUpScreenFirst from "./src/screens/SignUpScreenFirst";
+import SignUpScreenSecond from "./src/screens/SignUpScreenSecond";
 import PropertyScreen from "./src/screens/PropertyScreen";
 import PropertiesScreen from "./src/screens/PropertiesScreen";
 import {Ionicons} from '@expo/vector-icons';
@@ -63,7 +65,7 @@ const App = () => {
 
                     >
                         <Tab.Screen name="Search" component={PropertiesNavigator}/>
-                        <Tab.Screen name="Reservations" component={SigninScreen}/>
+                        <Tab.Screen name="Reservations" component={SignUpScreenSecond}/>
                         <Tab.Screen name="Profile" component={PropertiesScreen}/>
                         <Tab.Screen name="More" component={PropertiesScreen}/>
                     </Tab.Navigator>
