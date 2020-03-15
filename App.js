@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import SignUp from './src/components/Register/Register';
 import HomeScreen from "./src/screens/HomeScreen";
 import PropertyScreen from "./src/screens/PropertyScreen";
 import PropertiesScreen from "./src/screens/PropertiesScreen";
@@ -9,9 +11,10 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Loading from "./src/components/Common/Loading";
 import  {PropertiesProvider} from "./src/context/PropertiesContext";
-
+import ProfileScreen from "./src/screens/ProfileScreen";
 const Tab = createBottomTabNavigator();
 const PropertyStack = createStackNavigator();
+
 
 const PropertiesNavigator = () => {
     return (
@@ -23,6 +26,7 @@ const PropertiesNavigator = () => {
 };
 
 const App = () => {
+
     const [isFontLoaded, setIsFontLoaded] = useState(false);
     useEffect(() => {
         Font.loadAsync({
@@ -63,7 +67,7 @@ const App = () => {
                     >
                         <Tab.Screen name="Search" component={PropertiesNavigator}/>
                         <Tab.Screen name="Reservations" component={HomeScreen}/>
-                        <Tab.Screen name="Profile" component={PropertiesScreen}/>
+                        <Tab.Screen name="Profile" component={ProfileScreen}/>
                         <Tab.Screen name="More" component={PropertiesScreen}/>
                     </Tab.Navigator>
                 </NavigationContainer>
@@ -74,4 +78,45 @@ const App = () => {
     } else return <Loading/>
 
 };
+const signUpConfig = {
+    header: 'My Customized Sign Up',
+    hideAllDefaults: true,
+    defaultCountryCode: '1',
+    signUpFields: [
+        {
+            label: 'Email',
+            key: 'email',
+            required: true,
+            displayOrder: 1,
+            type: 'string'
+        },
+        {
+            label: 'Password',
+            key: 'password',
+            required: true,
+            displayOrder:2,
+            type: 'password'
+        },
+        {
+            label: 'name',
+            key: 'given_name',
+            required: true,
+            displayOrder: 3,
+            type: 'string'
+        },
+        {
+            label: 'surname',
+            key: 'family_name',
+            required: true,
+            displayOrder: 4,
+            type: 'string'
+        }
+    ]
+};
+const usernameAttributes = 'email';
+
+/*export default withAuthenticator(App, {
+    signUpConfig,
+    usernameAttributes
+});*/
 export default App;
