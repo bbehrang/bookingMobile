@@ -26,4 +26,5 @@ export const PropertiesProvider = ({children}) => {
         </PropertiesContext.Provider>
     );
 };
+export default PropertiesContext;
 
