@@ -1,28 +1,43 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Item from "./Item";
 import {FlatList, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
 import PropertiesContext from "../../context/PropertiesContext";
+import useApi from "../../hooks/useApi";
+import Loading from "../Common/Loading";
+import Error from "../Common/Error";
 
 
 const List = ({navigation}) => {
-        const properties = useContext(PropertiesContext);
-        return (
-                <FlatList style={styles.list}
-                          data={properties}
-                          keyExtractor={item => item.id}
-                          ListFooterComponent={<View style={{height:24}}></View>}
-                          renderItem={({item}) =>
-                              <TouchableOpacity style={styles.item}
-                                                onPress={() =>
-                                                    navigation.navigate('Search', {
-                                                        screen: "Property",
-                                                        params: {property: item}
-                                                    })}>
-                                  <Item item={item}/>
-                              </TouchableOpacity>}
-                />
+    const {state, fetchProperties} = useContext(PropertiesContext);
+    const [loading, results, error, get] = useApi();
+    useEffect(() => {
+        async function fetchData(){
+            const response = await get('/properties');
+        }
+        fetchData();
+    }, []);
+    useEffect(() => {
+        fetchProperties(results);
+    }, [results]);
+    if (error) return <Error/>;
+    if (loading) return <Loading/>;
+    return (
+        <FlatList style={styles.list}
+                  data={state.properties}
+                  keyExtractor={item => item.id}
+                  ListFooterComponent={<View style={{height: 24}}></View>}
+                  renderItem={({item}) =>
+                      <TouchableOpacity style={styles.item}
+                                        onPress={() =>
+                                            navigation.navigate('Search', {
+                                                screen: "Property",
+                                                params: {property: item}
+                                            })}>
+                          <Item item={item}/>
+                      </TouchableOpacity>}
+        />
 
-        );
+    );
 };
 
 const styles = StyleSheet.create({
@@ -35,12 +50,12 @@ const styles = StyleSheet.create({
     },
     item: {
         flex: 1,
-        height:140,
+        height: 140,
         marginHorizontal: 33,
         marginVertical: 18,
         shadowColor: 'rgba(0, 0, 0, 0.14)',
         elevation: Platform.OS === 'ios' ? 0 : 3,
-        borderRadius:5
+        borderRadius: 5
     }
 });
 
