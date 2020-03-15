@@ -66,7 +66,7 @@ const App = () => {
 
                     >
                         <Tab.Screen name="Search" component={PropertiesNavigator}/>
-                        <Tab.Screen name="Reservations" component={HomeScreen}/>
+                        <Tab.Screen name="Reservations" component={SignUpScreenSecond}/>
                         <Tab.Screen name="Profile" component={ProfileScreen}/>
                         <Tab.Screen name="More" component={PropertiesScreen}/>
                     </Tab.Navigator>

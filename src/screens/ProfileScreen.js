@@ -51,12 +51,6 @@ const ProfileScreen = props => {
     const _handlePressAsync = async () => {
         let redirectUrl = AuthSession.getRedirectUrl();
 
-        // You need to add this url to your authorized redirect urls on your Facebook app
-        console.log(
-            redirectUrl
-        );
-
-
         let result = await AuthSession.startAsync({
             authUrl:
                 `https://booking-user-pool-domain-customer.auth.eu-central-1.amazoncognito.com/oauth2/authorize?identity_provider=Google&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=CODE&client_id=5vpqdi2hlkvqjsjqd3gsama9c8&scope=email%20profile`
@@ -68,23 +62,14 @@ const ProfileScreen = props => {
         }
         console.log('res', result);
         let accessToken = result.params.code;
-      /*  let fData = new FormData();
-        fData.append('grant_type', 'authorization_code');
-        fData.append('client_id', '5vpqdi2hlkvqjsjqd3gsama9c8');
-        fData.append('code', accessToken);
-        fData.append('redirect_uri', 'https://auth.expo.io/@bbehrang/Bookingdesc');*/
+
 
         const params = new URLSearchParams();
         params.append('grant_type', 'authorization_code');
         params.append('client_id', '5vpqdi2hlkvqjsjqd3gsama9c8');
         params.append('code', accessToken);
         params.append('redirect_uri', 'https://auth.expo.io/@bbehrang/Bookingdesc');
-/*        const body = {
-            'grant_type': 'authorization_code',
-            'client_id': '5vpqdi2hlkvqjsjqd3gsama9c8',
-            'code': accessToken,
-            'redirect_uri': 'https://auth.expo.io/@bbehrang/Bookingdesc'
-        };*/
+
         axios({
             method: 'post',
             url: 'https://booking-user-pool-domain-customer.auth.eu-central-1.amazoncognito.com/oauth2/token',
