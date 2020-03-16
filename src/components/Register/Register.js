@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Button, TextInput} from "react-native";
+import {Button, Platform, ScrollView, StatusBar, StyleSheet, Text, TextInput, View} from "react-native";
 import { Auth } from 'aws-amplify';
 
 
-const Register = props => {
+const Register = ({navigation}) => {
+    console.log(navigation);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [family, setFamily] = useState('');
@@ -23,36 +24,55 @@ const Register = props => {
             },
             validationData: []  //optional
         })
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data);
+                navigation.navigate('Reservations', {
+                    screen: "Verify",
+                    params: {email, username}
+                });
+            })
             .catch(err => console.log(err));
 
-// After retrieving the confirmation code from the user
-        Auth.confirmSignUp(username, code, {
-            // Optional. Force user confirmation irrespective of existing alias. By default set to True.
-            forceAliasCreation: true
-        }).then(data => console.log(data))
-            .catch(err => console.log(err));
 
-        Auth.resendSignUp(username).then(() => {
-            console.log('code resent successfully');
-        }).catch(e => {
-            console.log(e);
-        });
     };
     return (
-        <>
-            <TextInput onChangeText={text => setEmail(text)}
+        <ScrollView style={styles.list}>
+            <Text>email</Text>
+            <TextInput style={styles.item} onChangeText={text => setEmail(text)}
                        value={email}/>
-            <TextInput onChangeText={text => setName(text)}
+            <Text>username</Text>
+            <TextInput style={styles.item} onChangeText={text => setUsername(text)}
+                       value={username}/>
+            <Text>name</Text>
+            <TextInput style={styles.item} onChangeText={text => setName(text)}
                        value={name}/>
-            <TextInput onChangeText={text => setFamily(text)}
+            <Text>family</Text>
+            <TextInput style={styles.item} onChangeText={text => setFamily(text)}
                        value={family}/>
-            <TextInput onChangeText={text => setPass(text)}
+            <Text>password</Text>
+            <TextInput style={styles.item} onChangeText={text => setPass(text)}
                        value={password}/>
                        <Button title={'submit'} onPress={register}/>
 
-        </>
+        </ScrollView>
     );
 };
+const styles = StyleSheet.create({
+    list: {
+        paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+        flex: 1,
+        flexGrow: 1,
+        backgroundColor: "#E5E5E5",
 
+    },
+    item: {
+        flex: 1,
+        height: 40,
+        marginHorizontal: 33,
+        marginVertical: 18,
+        shadowColor: 'rgba(0, 0, 0, 0.14)',
+        elevation: Platform.OS === 'ios' ? 0 : 3,
+        borderRadius: 5
+    }
+});
 export default Register;

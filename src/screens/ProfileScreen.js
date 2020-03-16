@@ -6,6 +6,7 @@ import Amplify, {Auth} from "aws-amplify";
 import awsconfig from '../../aws-exports';
 import * as WebBrowser from "expo-web-browser";
 import axios from 'axios';
+import {Divider} from "react-native-paper";
 Amplify.configure(awsconfig);
 const ProfileScreen = props => {
     const [state, setState] = useState(null);
@@ -23,22 +24,6 @@ const ProfileScreen = props => {
         } catch (error) {
             alert(error);
             console.log(error);
-        }
-    };
-    const signIn = async () => {
-        const {type, token, expires, user} = await Google.logInAsync({
-            androidClientId: "784980094016-truamsake413lgtuclt3s2utrsj1u4ml.apps.googleusercontent.com",
-            scope: ["profile", "email"]
-        });
-        if (type === 'success') {
-            console.log(user);
-            // sign in with federated identity
-            Auth.federatedSignIn('google', {token, expires_at: expires}, {name: 'USER_NAME'})
-                .then(credentials => {
-                    console.log('get aws credentials', credentials);
-                }).catch(e => {
-                console.log(e);
-            });
         }
     };
     const _renderUserInfo = () => {
@@ -86,13 +71,28 @@ const ProfileScreen = props => {
             });
 
     };
+    const checkLogin = () => {
+        Auth.currentAuthenticatedUser({
+            bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+        }).then(user => console.log(user))
+    };
+    const logout = () => {
+        Auth.signOut()
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+    };
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             {!state ? (
                 <Button title="Open FB Auth" onPress={_handlePressAsync}/>
+
             ) : (
                 _renderUserInfo()
             )}
+            <View  style={{height:20}}/>
+            <Button title="check logged in" onPress={checkLogin} />
+            <View  style={{height:20}}/>
+            <Button title="logout" onPress={logout} />
         </View>
     );
 };

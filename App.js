@@ -15,9 +15,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Loading from "./src/components/Common/Loading";
 import  {PropertiesProvider} from "./src/context/PropertiesContext";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import VerificationScreen from "./src/screens/VerficationScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 const Tab = createBottomTabNavigator();
 const PropertyStack = createStackNavigator();
-
+const RegisterStack = createStackNavigator();
 
 const PropertiesNavigator = () => {
     return (
@@ -25,6 +28,14 @@ const PropertiesNavigator = () => {
             <PropertyStack.Screen name="Properties" component={PropertiesScreen}/>
             <PropertyStack.Screen name="Property" component={PropertyScreen}/>
         </PropertyStack.Navigator>
+    );
+};
+const RegisterNavigator = () => {
+    return (
+        <RegisterStack.Navigator initialRouteName="Register" headerMode='none'>
+            <RegisterStack.Screen name="Register" component={RegisterScreen}/>
+            <RegisterStack.Screen name="Verify" component={VerificationScreen}/>
+        </RegisterStack.Navigator>
     );
 };
 
@@ -42,7 +53,7 @@ const App = () => {
             <PropertiesProvider>
                 <NavigationContainer>
                     <Tab.Navigator
-                        initialRouteName="Search"
+                        initialRouteName="Reservations"
                         screenOptions={({route}) => ({
                             tabBarIcon: ({focused, color, size}) => {
                                 let iconName;
@@ -69,10 +80,10 @@ const App = () => {
 
                     >
                         <Tab.Screen name="Search" component={PropertiesNavigator}/>
-                        <Tab.Screen name="Reservations" component={SignUpScreenSecond}/>
+                        <Tab.Screen name="Reservations" component={RegisterNavigator}/>
                         <Tab.Screen name="Profile" component={ProfileScreen}/>
 
-                        <Tab.Screen name="More" component={PropertiesScreen}/>
+                        <Tab.Screen name="More" component={LoginScreen}/>
                     </Tab.Navigator>
                 </NavigationContainer>
             </PropertiesProvider>
