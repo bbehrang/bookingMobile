@@ -3,10 +3,11 @@ import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, S
 import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
+import {connect} from 'react-redux';
+import {signInUser} from "../logic/user/actions";
 
 
-
-export default class SignInScreen extends React.Component {
+class SignInScreen extends React.Component {
     render() {
         return (
             <KeyboardAvoidingView style={styles.containerWrapper}>
@@ -25,10 +26,7 @@ export default class SignInScreen extends React.Component {
                                     .required('Required password'),
                             })}
                             onSubmit={(values, formikActions) => {
-                                setTimeout(() => {
-                                    Alert.alert(JSON.stringify(values));
-                                    formikActions.setSubmitting(false);
-                                }, 500);
+                                    this.props.signIn(values.email,values.password);
                             }}>
                             {props => (
                                 <View>
@@ -80,6 +78,17 @@ export default class SignInScreen extends React.Component {
         );
     }
 }
+
+export default connect(
+    function mapDispatchToProps(dispatch) {
+        return {
+            signIn(login,password) {
+                dispatch(signInUser(login,password));
+
+            }
+        };
+    }
+)(SignInScreen);
 
 const styles = StyleSheet.create({
     containerWrapper: {

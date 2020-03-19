@@ -79,7 +79,7 @@ export default class SignUpFirstScreen extends React.Component {
                                         <Text style={styles.error}>{props.errors.repeatPassword}</Text>
                                     ) : null}
                                     <Button
-                                        onPress={props.handleSubmit}
+                                        onPress={() => this.props.navigation.navigate('SignUpScreenSecond')}
                                         color="#009688"
                                         mode="contained"
                                         loading={props.isSubmitting}
