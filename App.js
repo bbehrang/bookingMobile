@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import SignUp from './src/components/Register/Register';
 import HomeScreen from "./src/screens/HomeScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreenFirst from "./src/screens/SignUpScreenFirst";
@@ -12,9 +14,13 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Loading from "./src/components/Common/Loading";
 import  {PropertiesProvider} from "./src/context/PropertiesContext";
-
+import ProfileScreen from "./src/screens/ProfileScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import VerificationScreen from "./src/screens/VerficationScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 const Tab = createBottomTabNavigator();
 const PropertyStack = createStackNavigator();
+const RegisterStack = createStackNavigator();
 
 const PropertiesNavigator = () => {
     return (
@@ -24,8 +30,17 @@ const PropertiesNavigator = () => {
         </PropertyStack.Navigator>
     );
 };
+const RegisterNavigator = () => {
+    return (
+        <RegisterStack.Navigator initialRouteName="Register" headerMode='none'>
+            <RegisterStack.Screen name="Register" component={RegisterScreen}/>
+            <RegisterStack.Screen name="Verify" component={VerificationScreen}/>
+        </RegisterStack.Navigator>
+    );
+};
 
 const App = () => {
+
     const [isFontLoaded, setIsFontLoaded] = useState(false);
     useEffect(() => {
         Font.loadAsync({
@@ -38,7 +53,7 @@ const App = () => {
             <PropertiesProvider>
                 <NavigationContainer>
                     <Tab.Navigator
-                        initialRouteName="Search"
+                        initialRouteName="Reservations"
                         screenOptions={({route}) => ({
                             tabBarIcon: ({focused, color, size}) => {
                                 let iconName;
@@ -65,9 +80,10 @@ const App = () => {
 
                     >
                         <Tab.Screen name="Search" component={PropertiesNavigator}/>
-                        <Tab.Screen name="Reservations" component={SignUpScreenSecond}/>
-                        <Tab.Screen name="Profile" component={PropertiesScreen}/>
-                        <Tab.Screen name="More" component={PropertiesScreen}/>
+                        <Tab.Screen name="Reservations" component={RegisterNavigator}/>
+                        <Tab.Screen name="Profile" component={ProfileScreen}/>
+
+                        <Tab.Screen name="More" component={LoginScreen}/>
                     </Tab.Navigator>
                 </NavigationContainer>
             </PropertiesProvider>
@@ -77,4 +93,45 @@ const App = () => {
     } else return <Loading/>
 
 };
+const signUpConfig = {
+    header: 'My Customized Sign Up',
+    hideAllDefaults: true,
+    defaultCountryCode: '1',
+    signUpFields: [
+        {
+            label: 'Email',
+            key: 'email',
+            required: true,
+            displayOrder: 1,
+            type: 'string'
+        },
+        {
+            label: 'Password',
+            key: 'password',
+            required: true,
+            displayOrder:2,
+            type: 'password'
+        },
+        {
+            label: 'name',
+            key: 'given_name',
+            required: true,
+            displayOrder: 3,
+            type: 'string'
+        },
+        {
+            label: 'surname',
+            key: 'family_name',
+            required: true,
+            displayOrder: 4,
+            type: 'string'
+        }
+    ]
+};
+const usernameAttributes = 'email';
+
+/*export default withAuthenticator(App, {
+    signUpConfig,
+    usernameAttributes
+});*/
 export default App;
