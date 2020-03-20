@@ -1,10 +1,21 @@
-import axios from 'axios';
+import axios from "axios";
 
-export default axios.create({
-    baseURL: "https://api.booking.knine.xyz"
-    /*
-    * headers: {
-    * Authorization: @TODO
-    * }
-    * */
-});
+class Api {
+    constructor(url) {
+        this.adapter = axios.create({
+            baseURL: url
+        });
+
+    }
+
+    sendRequest = (url, type, payload) => {
+
+        return this.adapter.request({
+            url:url,
+            method: type,
+            data: payload
+        });
+    };
+}
+
+export default new Api("https://api.booking.knine.xyz");

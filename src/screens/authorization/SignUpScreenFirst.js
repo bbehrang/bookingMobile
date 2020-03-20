@@ -1,21 +1,20 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Alert, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
-import {connect} from 'react-redux';
-import {signInUser} from "../logic/user/actions";
 
 
-class SignInScreen extends React.Component {
+
+export default class SignUpFirstScreen extends React.Component {
     render() {
         return (
             <KeyboardAvoidingView style={styles.containerWrapper}>
                 <ScrollView>
                     <View style={styles.container}>
-                        <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
+                        <Image style={styles.logo} source={require('../../../assets/Logo.png')}/>
                         <Text style={styles.logo_text}>BOOKING</Text>
-                        <Text style={styles.title}>Sign in</Text>
+                        <Text style={styles.title}>Sign up</Text>
                         <Formik
                             initialValues={{ email: '', password: '' }}
                             validationSchema={Yup.object({
@@ -24,18 +23,23 @@ class SignInScreen extends React.Component {
                                     .required('Required email'),
                                 password: Yup.string()
                                     .required('Required password'),
+                                repeatPassword: Yup.string()
+                                    .required('Required password'),
                             })}
                             onSubmit={(values, formikActions) => {
-                                    this.props.signIn(values.email,values.password);
+                                setTimeout(() => {
+                                    Alert.alert(JSON.stringify(values));
+                                    formikActions.setSubmitting(false);
+                                }, 500);
                             }}>
                             {props => (
                                 <View>
-                                    <Text style={styles.label}>Email</Text>
+                                    <Text style={styles.label}>E-mail</Text>
                                     <TextInput
                                         onChangeText={props.handleChange('email')}
                                         onBlur={props.handleBlur('email')}
                                         value={props.values.email}
-                                        placeholder="Email Address"
+                                        placeholder="Input text for a single line field"
                                         style={styles.input}
                                         autoFocus
                                         onSubmitEditing={() => {
@@ -50,45 +54,50 @@ class SignInScreen extends React.Component {
                                         onChangeText={props.handleChange('password')}
                                         onBlur={props.handleBlur('password')}
                                         value={props.values.password}
-                                        placeholder="Password"
+                                        placeholder="Enter your password"
                                         style={styles.input}
                                         secureTextEntry
                                         ref={el => this.passwordInput = el}
+                                        onSubmitEditing={() => {
+                                            this.repeatPasswordInput.focus()
+                                        }}
                                     />
                                     {props.touched.password && props.errors.password ? (
                                         <Text style={styles.error}>{props.errors.password}</Text>
                                     ) : null}
+                                    <Text style={styles.label}>Repeat password</Text>
+                                    <TextInput
+                                        onChangeText={props.handleChange('repeatPassword')}
+                                        onBlur={props.handleBlur('repeatPassword')}
+                                        value={props.values.repeatPassword}
+                                        placeholder="Enter your password again"
+                                        style={styles.input}
+                                        secureTextEntry
+                                        ref={el => this.repeatPasswordInput = el}
+                                    />
+                                    {props.touched.repeatPassword && props.errors.repeatPassword ? (
+                                        <Text style={styles.error}>{props.errors.repeatPassword}</Text>
+                                    ) : null}
                                     <Button
-                                        onPress={props.handleSubmit}
+                                        onPress={() => this.props.navigation.navigate('SignUpScreenSecond')}
                                         color="#009688"
                                         mode="contained"
                                         loading={props.isSubmitting}
                                         disabled={props.isSubmitting}
                                         style={styles.button}>
-                                        <Text style={{lineHeight: 30}}>Sign in</Text>
+                                        <Text style={{lineHeight: 30}}>Next</Text>
                                     </Button>
                                 </View>
                             )}
                         </Formik>
-                        <Text style={styles.question}>Don’t have any account yet?</Text>
-                        <Text style={styles.question}>Sign up</Text>
+                        <Text style={styles.question}>Already have an account?</Text>
+                        <Text style={styles.question} onPress={()=>this.props.navigation.navigate('SignInScreen')}>Sign in</Text>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         );
     }
 }
-
-export default connect(
-    function mapDispatchToProps(dispatch) {
-        return {
-            signIn(login,password) {
-                dispatch(signInUser(login,password));
-
-            }
-        };
-    }
-)(SignInScreen);
 
 const styles = StyleSheet.create({
     containerWrapper: {

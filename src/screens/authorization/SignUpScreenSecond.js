@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
 import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
@@ -12,9 +12,17 @@ export default class SignUpFirstScreen extends React.Component {
             <KeyboardAvoidingView style={styles.containerWrapper}>
                 <ScrollView>
                     <View style={styles.container}>
-                        <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
+                        <Image style={styles.logo} source={require('../../../assets/Logo.png')}/>
                         <Text style={styles.logo_text}>BOOKING</Text>
-                        <Text style={styles.title}>Sign up</Text>
+                        <View style={styles.back}>
+                            <TouchableOpacity style={styles.arrow} onPress={()=>this.props.navigation.navigate('SignUpScreenFirst')}>
+                                <Image style={styles.arrowPic}
+                                       source={require('../../../assets/back.png')}
+
+                                />
+                            </TouchableOpacity>
+                            <Text onPress={()=>this.props.navigation.navigate('SignUpScreenFirst')} style={styles.title}>Sign up</Text>
+                        </View>
                         <Formik
                             initialValues={{ firstName: '', secondName: '', userName: '' }}
                             validationSchema={Yup.object({
@@ -90,7 +98,7 @@ export default class SignUpFirstScreen extends React.Component {
                             )}
                         </Formik>
                         <Text style={styles.question}>Already have an account?</Text>
-                        <Text style={styles.question}>Sign in</Text>
+                        <Text style={styles.question} onPress={()=>this.props.navigation.navigate('SignInScreen')}>Sign in</Text>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -128,11 +136,29 @@ const styles = StyleSheet.create({
         fontFamily: 'montserratBold',
         color:'#181818'
     },
+    back:{
+        flex:1,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    arrow:{
+        height: 20,
+        width: 20,
+        position: 'absolute',
+        left:70,
+    },
+    arrowPic:{
+        height: 20,
+        width: 20,
+    },
     error: {
         marginTop:5,
         fontSize: 10,
         color: '#FE6A6A',
         fontFamily: 'montserratBold',
+        position: 'relative',
     },
     input: {
         height: 40,

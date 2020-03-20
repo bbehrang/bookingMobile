@@ -1,8 +1,9 @@
 import { SIGN_IN, SIGN_OUT, SIGN_UP, UPDATE_USER } from "./actionTypes";
 
-export function signInUser() {
+export function signInUser(login,password) {
     return {
-        type: SIGN_IN
+        type: SIGN_IN,
+        payload: { login,password }
     };
 }
 

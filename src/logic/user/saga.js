@@ -6,10 +6,20 @@ import api from "../../services/Api";
 function* signInUser(action) {
     try {
         const response = yield call(api.sendRequest, "api/user?login="+action.payload.login+"&password="+action.payload.password, "get");
+       //  let response={
+       //      firstName:"Olga",
+       //      lastName:"Yashan",
+       //      userName:"olgayashan",
+       //      authToken:""
+       //  };
         yield put({
             type: actionTypes.SIGN_IN_SUCCESS,
             payload: {
-                user: response.data
+                firstName: response.firstName,
+                lastName: response.lastName,
+                userName: response.userName,
+                authToken: response.authToken,
+
             }
         });
     } catch (err) {
@@ -35,6 +45,26 @@ function* signUpUser(action) {
     } catch (err) {
         yield put({
             type: actionTypes.SIGN_UP_ERROR,
+            payload: {
+                error: err.response.data
+            }
+        });
+    }
+}
+
+function* signOutUser(action) {
+    console.log(action.payload);
+    try {
+        const response = yield call(api.sendRequest, "api/user/", "post",action.payload);
+        yield put({
+            type: actionTypes.SIGN_OUT_SUCCESS,
+            payload: {
+                user: response.data
+            }
+        });
+    } catch (err) {
+        yield put({
+            type: actionTypes.SIGN_OUT_ERROR,
             payload: {
                 error: err.response.data
             }
