@@ -3,16 +3,21 @@ import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, S
 import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
+import {connect} from 'react-redux';
+import {signInUser} from "../../logic/user/actions";
 
 
+class SignInScreen extends React.Component {
+    signIn = function(values){
+        this.props.signIn(values.email,values.password);
+    }
 
-export default class SignInScreen extends React.Component {
     render() {
         return (
             <KeyboardAvoidingView style={styles.containerWrapper}>
                 <ScrollView>
                     <View style={styles.container}>
-                        <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
+                        <Image style={styles.logo} source={require('../../../assets/Logo.png')}/>
                         <Text style={styles.logo_text}>BOOKING</Text>
                         <Text style={styles.title}>Sign in</Text>
                         <Formik
@@ -25,10 +30,8 @@ export default class SignInScreen extends React.Component {
                                     .required('Required password'),
                             })}
                             onSubmit={(values, formikActions) => {
-                                setTimeout(() => {
-                                    Alert.alert(JSON.stringify(values));
-                                    formikActions.setSubmitting(false);
-                                }, 500);
+                                this.signIn(values)
+                                console.log(values)
                             }}>
                             {props => (
                                 <View>
@@ -73,13 +76,25 @@ export default class SignInScreen extends React.Component {
                             )}
                         </Formik>
                         <Text style={styles.question}>Don’t have any account yet?</Text>
-                        <Text style={styles.question}>Sign up</Text>
+                        <Text style={styles.question} onPress={()=>this.props.navigation.navigate('SignUpScreenFirst')}>Sign up</Text>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         );
     }
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        signIn(login,password) {
+            dispatch(signInUser(login,password));
+
+        }
+    };
+}
+
+export default connect(
+    mapDispatchToProps
+)(SignInScreen);
 
 const styles = StyleSheet.create({
     containerWrapper: {

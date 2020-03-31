@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Alert, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
@@ -12,18 +12,19 @@ export default class SignUpFirstScreen extends React.Component {
             <KeyboardAvoidingView style={styles.containerWrapper}>
                 <ScrollView>
                     <View style={styles.container}>
-                        <Image style={styles.logo} source={require('../../assets/Logo.png')}/>
+                        <Image style={styles.logo} source={require('../../../assets/Logo.png')}/>
                         <Text style={styles.logo_text}>BOOKING</Text>
                         <Text style={styles.title}>Sign up</Text>
                         <Formik
-                            initialValues={{ firstName: '', secondName: '', userName: '' }}
+                            initialValues={{ email: '', password: '' }}
                             validationSchema={Yup.object({
-                                firstName: Yup.string()
-                                    .required('Required first name'),
-                                secondName: Yup.string()
-                                    .required('Required second name'),
-                                userName: Yup.string()
-                                    .required('Required user name'),
+                                email: Yup.string()
+                                    .email('Invalid Email')
+                                    .required('Required email'),
+                                password: Yup.string()
+                                    .required('Required password'),
+                                repeatPassword: Yup.string()
+                                    .required('Required password'),
                             })}
                             onSubmit={(values, formikActions) => {
                                 setTimeout(() => {
@@ -33,52 +34,52 @@ export default class SignUpFirstScreen extends React.Component {
                             }}>
                             {props => (
                                 <View>
-                                    <Text style={styles.label}>First name</Text>
+                                    <Text style={styles.label}>E-mail</Text>
                                     <TextInput
-                                        onChangeText={props.handleChange('firstName')}
-                                        onBlur={props.handleBlur('firstName')}
+                                        onChangeText={props.handleChange('email')}
+                                        onBlur={props.handleBlur('email')}
                                         value={props.values.email}
-                                        placeholder="Joe"
+                                        placeholder="Input text for a single line field"
                                         style={styles.input}
                                         autoFocus
                                         onSubmitEditing={() => {
-                                            this.secondName.focus()
+                                            this.passwordInput.focus()
                                         }}
                                     />
-                                    {props.touched.firstName && props.errors.firstName ? (
-                                        <Text style={styles.error}>{props.errors.firstName}</Text>
+                                    {props.touched.email && props.errors.email ? (
+                                        <Text style={styles.error}>{props.errors.email}</Text>
                                     ) : null}
-                                    <Text style={styles.label}>Second name</Text>
+                                    <Text style={styles.label}>Password</Text>
                                     <TextInput
-                                        onChangeText={props.handleChange('secondName')}
-                                        onBlur={props.handleBlur('secondName')}
+                                        onChangeText={props.handleChange('password')}
+                                        onBlur={props.handleBlur('password')}
                                         value={props.values.password}
-                                        placeholder="Doe"
+                                        placeholder="Enter your password"
                                         style={styles.input}
                                         secureTextEntry
-                                        ref={el => this.secondName = el}
+                                        ref={el => this.passwordInput = el}
                                         onSubmitEditing={() => {
-                                            this.userName.focus()
+                                            this.repeatPasswordInput.focus()
                                         }}
                                     />
-                                    {props.touched.secondName && props.errors.secondName ? (
-                                        <Text style={styles.error}>{props.errors.secondName}</Text>
+                                    {props.touched.password && props.errors.password ? (
+                                        <Text style={styles.error}>{props.errors.password}</Text>
                                     ) : null}
-                                    <Text style={styles.label}>Username</Text>
+                                    <Text style={styles.label}>Repeat password</Text>
                                     <TextInput
-                                        onChangeText={props.handleChange('userName')}
-                                        onBlur={props.handleBlur('userName')}
-                                        value={props.values.userName}
-                                        placeholder="JoeDoe"
+                                        onChangeText={props.handleChange('repeatPassword')}
+                                        onBlur={props.handleBlur('repeatPassword')}
+                                        value={props.values.repeatPassword}
+                                        placeholder="Enter your password again"
                                         style={styles.input}
                                         secureTextEntry
-                                        ref={el => this.userName = el}
+                                        ref={el => this.repeatPasswordInput = el}
                                     />
-                                    {props.touched.userName && props.errors.userName ? (
-                                        <Text style={styles.error}>{props.errors.userName}</Text>
+                                    {props.touched.repeatPassword && props.errors.repeatPassword ? (
+                                        <Text style={styles.error}>{props.errors.repeatPassword}</Text>
                                     ) : null}
                                     <Button
-                                        onPress={props.handleSubmit}
+                                        onPress={() => this.props.navigation.navigate('SignUpScreenSecond')}
                                         color="#009688"
                                         mode="contained"
                                         loading={props.isSubmitting}
@@ -90,7 +91,7 @@ export default class SignUpFirstScreen extends React.Component {
                             )}
                         </Formik>
                         <Text style={styles.question}>Already have an account?</Text>
-                        <Text style={styles.question}>Sign in</Text>
+                        <Text style={styles.question} onPress={()=>this.props.navigation.navigate('SignInScreen')}>Sign in</Text>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
