@@ -4,7 +4,6 @@
     "slug": "Bookingdesc",
     "privacy": "public",
     "scheme": "myapp",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -28,7 +27,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.booking.book",
+      "package": "com.booking.book"
     }
   }
 }
