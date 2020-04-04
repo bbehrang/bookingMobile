@@ -1,6 +1,10 @@
 export const defaultState = {
     font: false,
-    properties: [],
+    properties: {
+        isLoading: false,
+        errors: null,
+        items: []
+    },
     loading: false,
     error: null
 };

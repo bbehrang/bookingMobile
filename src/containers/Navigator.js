@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import {Ionicons} from "@expo/vector-icons";
 import NavigatorComponent from "../NavigatorComponent";
 import {loadFonts} from "../redux/font/actions";
+import Loading from "../components/Common/Loading";
 
 const Navigator = () => {
 
@@ -17,14 +18,14 @@ const Navigator = () => {
                 'montserratBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
             });
             dispatch(loadFonts(
-                Font.isLoaded('montserratMed')
+                Font.isLoaded('ionicons')
+                && Font.isLoaded('montserratMed')
                 && Font.isLoaded('montserratBold')));
         }
         loadFontsAsync();
     },[]);
-    return (
-        <NavigatorComponent isFontLoaded={isFontLoaded}/>
-    );
+    return isFontLoaded ? <NavigatorComponent/> : <Loading/>;
+
 };
 
 
