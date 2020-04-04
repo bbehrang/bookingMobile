@@ -4,7 +4,7 @@ import {Button} from 'react-native-paper';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {connect} from 'react-redux';
-import {signInUser} from "../../logic/user/actions";
+import {signInUser} from "../../redux/user/actions";
 
 
 class SignInScreen extends React.Component {

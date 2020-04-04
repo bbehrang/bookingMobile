@@ -33,7 +33,7 @@ function* signInUser(action) {
 }
 
 function* signUpUser(action) {
-    console.log(action.payload);
+
     try {
         const response = yield call(api.sendRequest, "api/user/", "post",action.payload);
         yield put({
@@ -53,7 +53,7 @@ function* signUpUser(action) {
 }
 
 function* signOutUser(action) {
-    console.log(action.payload);
+
     try {
         const response = yield call(api.sendRequest, "api/user/", "post",action.payload);
         yield put({
@@ -75,7 +75,7 @@ function* signOutUser(action) {
 
 function* updateUser(action) {
     try {
-        console.log(action.payload.arr);
+
         const response = yield call(api.sendRequest, "api/user/products?login="+action.payload.arr.login+"&password="+action.payload.arr.password, "put", action.payload.arr);
         yield put({
             type: actionTypes.UPDATE_USER_SUCCESS,

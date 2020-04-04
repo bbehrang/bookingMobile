@@ -1,29 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import * as Font from 'expo-font';
-import Loading from "./src/components/Common/Loading";
-import NavigatorComponent from "./src/NavigatorComponent";
-import {Provider} from "react-redux";
-import store from "./src/store";
+import React, {useCallback, useEffect, useState} from 'react';
 
+import NavigatorComponent from "./src/NavigatorComponent";
+import {Provider, useDispatch} from "react-redux";
+import store from "./src/redux/store";
+import Navigator from "./src/containers/Navigator";
 
 
 
 const App = () => {
-    const [isFontLoaded, setIsFontLoaded] = useState(false);
-    useEffect(() => {
-        Font.loadAsync({
-            montserratMed: require('./assets/fonts/Montserrat-Medium.ttf'),
-            montserratBold: require('./assets/fonts/Montserrat-SemiBold.ttf')
-        }).then(() => setIsFontLoaded(true)).catch(e => console.log(e));
-    }, []);
-    if (isFontLoaded) {
-        return (
+
+    return (
             <Provider store={store}>
-              <NavigatorComponent/>
+              <Navigator/>
             </Provider>
         );
-    } else return <Loading/>
-
 };
 
 
