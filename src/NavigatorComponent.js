@@ -1,15 +1,28 @@
-import React, {useCallback, useEffect} from 'react'
-import * as Font from "expo-font";
+import React from 'react'
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import {Ionicons} from "@expo/vector-icons";
+
 import SignInScreen from "./screens/authorization/SignInScreen";
 import SignUpScreenFirst from "./screens/authorization/SignUpScreenFirst";
 import SignUpScreenSecond from "./screens/authorization/SignUpScreenSecond";
+
 import HomeScreen from "./screens/HomeScreen";
 import PropertiesScreen from "./screens/PropertiesScreen";
-import Loading from "./components/Common/Loading";
+import PropertyScreen from "./screens/PropertyScreen";
+
+const Tab = createBottomTabNavigator();
+const AppStack = createStackNavigator();
+const PropertyStack = createStackNavigator();
+const PropertiesNavigator = () => {
+    return (
+        <PropertyStack.Navigator initialRouteName="Properties" headerMode='none'>
+            <PropertyStack.Screen name="Properties" component={PropertiesScreen}/>
+            <PropertyStack.Screen name="Property" component={PropertyScreen}/>
+        </PropertyStack.Navigator>
+    );
+};
 
 const BottomTabNavigator = () => {
         return (
@@ -38,7 +51,7 @@ const BottomTabNavigator = () => {
                     keyboardHidesTabBar: true,
                 }}
             >
-                <Tab.Screen name="Search" component={HomeScreen}/>
+                <Tab.Screen name="Search" component={PropertiesNavigator}/>
                 <Tab.Screen name="Reservations" component={PropertiesScreen}/>
                 <Tab.Screen name="Profile" component={HomeScreen}/>
                 <Tab.Screen name="More" component={HomeScreen}/>
@@ -48,7 +61,6 @@ const BottomTabNavigator = () => {
 
 
 const NavigatorComponent = (props) => {
-    if(props.isFontLoaded){
         return (
             <NavigationContainer>
                 <AppStack.Navigator initialRouteName="SignInScreen" headerMode='none'>
@@ -77,14 +89,8 @@ const NavigatorComponent = (props) => {
                 </AppStack.Navigator>
             </NavigationContainer>
         );
-    }
-    else {
-        return <Loading/>
-    }
-
 };
-const Tab = createBottomTabNavigator();
-const AppStack = createStackNavigator();
+
 export default NavigatorComponent;
 
 

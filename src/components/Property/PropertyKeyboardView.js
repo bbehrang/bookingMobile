@@ -3,8 +3,10 @@ import {FlatList, Dimensions, Platform,
     StatusBar, StyleSheet, TextInput,Animated,
     Keyboard, UIManager} from "react-native";
 import Property from "./Property";
+import Loading from "../Common/Loading";
+import Error from "../Common/Error";
 const {State: TextInputState} = TextInput;
-const Container = ({property}) => {
+const PropertyKeyboardView = ({property, isLoading, errors, comments}) => {
     const [shift, setShift] = useState(new Animated.Value(0));
     let keyboardDidShowSub;
     let keyboardDidHideSub;
@@ -47,10 +49,11 @@ const Container = ({property}) => {
             }
         ).start();
     };
+    if(isLoading || !comments) return <Loading/>;
+    if(errors) return <Error/>;
     return (
-
         <Animated.View style={[styles.container, {transform: [{translateY: shift}]}]}>
-            <Property property={property}/>
+            <Property property={property} comments={comments}/>
         </Animated.View>
 
     );
@@ -67,4 +70,4 @@ const styles = StyleSheet.create({
         zIndex: 2
     }
 });
-export default Container;
+export default PropertyKeyboardView;

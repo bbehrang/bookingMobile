@@ -10,10 +10,10 @@ const PropertiesContainer = ({navigation}) => {
     useEffect(() => {
         dispatch(fetchProperties());
     }, []);
-    if(isLoading) return <Loading/>;
-    if(errors) return <Error/>;
     return (
-        <Properties properties={items} navigation={navigation}/>
+        <Properties properties={items} isLoading={isLoading}
+                    errors={errors} navigation={navigation}
+                    refresh={() => dispatch(fetchProperties())}/>
     );
 };
 

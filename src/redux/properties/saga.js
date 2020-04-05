@@ -1,4 +1,4 @@
-import {call, put, takeLatest, apply, all} from "redux-saga/effects";
+import {call, put, takeLatest, apply, all, delay} from "redux-saga/effects";
 import Api from '../../services/Api';
 import {FETCH_PROPERTIES, FETCH_PROPERTIES_ERROR, FETCH_PROPERTIES_SUCCESS} from "./actionTypes";
 

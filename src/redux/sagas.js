@@ -1,9 +1,9 @@
 import { all, fork } from "redux-saga/effects";
 
-import userSaga from "./user/saga"
-import fontSaga from "./font/saga";
 import propertiesSaga from "./properties/saga";
+import propertySaga from "./property/saga";
+import commentsSaga from "./comments/saga";
 
 export default function* rootSaga() {
-    yield all([fork(propertiesSaga)]);
+    yield all([fork(propertiesSaga), fork(propertySaga), fork(commentsSaga)]);
 }
