@@ -1,35 +1,19 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Info from "../Properties/Info";
-import Add from "../Properties/Comments/Add";
 import Comment from "../Properties/Comments/Item";
-import {FlatList, Platform, StatusBar, StyleSheet} from "react-native";
-import useApi from "../../hooks/useApi";
-import Error from "../Common/Error";
+import {FlatList, Platform, StatusBar, StyleSheet, View} from "react-native";
 import Loading from "../Common/Loading";
-import {PropertiesContext} from "../../context/PropertiesContext";
+import Error from "../Common/Error";
 
-const Property = ({property}) => {
-    const [loading, results, error, get] = useApi();
-    const {state: {fetchedPropertiesWithDetails}, fetchProperty} = useContext(PropertiesContext);
-    const path = property ? `/properties/${property.id}/comments` : null;
-
-    useEffect(() => {
-        async function fetchData() {
-            await get(path);
-        }
-        if(property && fetchedPropertiesWithDetails.filter(item => item.id === property.id).length <= 0)
-            fetchData();
-    }, [property]);
-    useEffect(() => {
-        fetchProperty(results);
-    }, [results]);
-    if (error) return <Error/>;
-    if (loading) return <Loading/>;
+const Property = ({property, comments}) => {
+    const {isLoading, errors, items} = comments;
+    if(isLoading) return <Loading/>;
+    if(errors) return <Error/>;
     return (
         <FlatList
             ListHeaderComponent={<Info property={property}/>}
-            ListFooterComponent={<Add path={path}/>}
-            data={results}
+            ListFooterComponent={<View style={{height : 30}}/>}
+            data={items}
             extraData={property}
             renderItem={({item}) => <Comment item={item}/>}
             keyExtractor={(item) => item.id}

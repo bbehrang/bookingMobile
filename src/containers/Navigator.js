@@ -17,12 +17,12 @@ const Navigator = () => {
                 'montserratMed': require('../../assets/fonts/Montserrat-Medium.ttf'),
                 'montserratBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
             });
-            dispatch(loadFonts(
-                Font.isLoaded('ionicons')
-                && Font.isLoaded('montserratMed')
-                && Font.isLoaded('montserratBold')));
         }
         loadFontsAsync();
+        dispatch(loadFonts(
+            Font.isLoaded('ionicons')
+            && Font.isLoaded('montserratMed')
+            && Font.isLoaded('montserratBold')));
     },[]);
     return isFontLoaded ? <NavigatorComponent/> : <Loading/>;
 

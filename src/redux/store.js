@@ -13,7 +13,7 @@ const store = createStore(
     reducers,
     enhancer
 );
-sagaMiddelware.run(sagas)
+sagaMiddelware.run(sagas);
 export default store;
 
 

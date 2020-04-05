@@ -3,23 +3,27 @@ import {Image, Text, StyleSheet, TouchableOpacity, View} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
 import CommentList from './Comments/List';
 import Add from "./Comments/Add";
+import Loading from "../Common/Loading";
+import Error from "../Common/Error";
 
 const Info = ({property}) => {
+    const {cover_image_url, id, name, description} = property;
     const [isFullDescHidden, setIsFullDescHidden] = useState(true);
     useEffect(() => {
         setIsFullDescHidden(true);
     },[property]);
+
     return (
         <>
-            <Image source={{uri: property.cover_image_url}} style={styles.image}/>
+            <Image source={{uri: cover_image_url}} style={styles.image}/>
             <View style={styles.info}>
-                <Text style={[styles.infoItem, styles.name]}>{property.name}</Text>
+                <Text style={[styles.infoItem, styles.name]}>{name}</Text>
                 <TouchableOpacity onPress={() => setIsFullDescHidden(!isFullDescHidden)} activeOpacity={0.8}>
                     <Text style={styles.infoItem}>
                         {
                             isFullDescHidden && property.description.length > 300 ?
-                                property.description.substring(0, 300) + "..."
-                                : property.description
+                                description.substring(0, 300) + "..."
+                                : description
                         }
                     </Text>
                 </TouchableOpacity>
@@ -28,7 +32,7 @@ const Info = ({property}) => {
                 <ThemeButton title='Reserve' customStyles={styles.button}/>
             </View>
             <Text style={styles.sectionTitle}>Comments</Text>
-            <Add id={property.id} />
+            <Add id={id} />
 
         </>
     );

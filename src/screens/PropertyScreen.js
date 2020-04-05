@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import PropertyContainer from "../components/Property/Container";
+import PropertyContainer from "../containers/Property";
 import Header from "../components/Header/Header";
 
 const PropertyScreen = ({route, navigation}) => {

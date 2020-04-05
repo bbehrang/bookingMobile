@@ -1,13 +1,24 @@
 import React from 'react';
 import Item from "./Item";
-import {FlatList, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
+import {FlatList, Platform, RefreshControl, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
+import Loading from "../Common/Loading";
+import Error from "../Common/Error";
 
-const List = ({properties, navigation}) => {
+const List = ({properties, isLoading, errors, refresh, navigation}) => {
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = async () => {
+      setRefreshing(true);
+      await refresh();
+      setRefreshing(false);
+    };
+    if(isLoading) return <Loading/>;
+    if(errors) return <Error/>;
     return (
         <FlatList style={styles.list}
                   data={properties}
                   keyExtractor={item => item.id}
                   ListFooterComponent={<View style={{height: 24}}></View>}
+                  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
                   renderItem={({item}) =>
                       <TouchableOpacity style={styles.item}
                                         onPress={() =>

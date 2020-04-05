@@ -4,18 +4,13 @@ import {
 } from "./actionTypes";
 import {defaultState} from "../defaultState";
 
-export default function fontReducer(state = defaultState.font, action) {
-    switch (action.type) {
-        case FONT_LOAD: {
-            return produce(state, draft => {
-                draft = action.payload === 'boolean' ? action.payload : state;
-            });
+const fontReducer = (state = defaultState.font, action) => {
+    return produce(state, draft => {
+        switch (action.type) {
+            case FONT_LOAD: {
+                    if(typeof action.payload === 'boolean') draft.isLoaded = action.payload;
+            }
         }
-        default:
-            {
-            return {
-                state
-            };
-        }
-    }
-}
+    });
+};
+export default fontReducer;
