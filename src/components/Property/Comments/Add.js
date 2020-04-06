@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Image, TextInput} from "react-native";
 import ThemeButton from "../../Common/ThemeButton";
-import useApi from "../../../hooks/useApi";
 
-const Add = ({path}) => {
+const Add = ({submit}) => {
 
     const submitComment = () => {
-        post(path, {text: comment});
+        submit(comment);
     };
     const [comment, setComment] = useState('');
-    const [loading, error, results,, post] = useApi();
     return (
         <>
             <View style={styles.container}>

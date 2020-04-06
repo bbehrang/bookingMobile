@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import Info from "../Properties/Info";
-import Comment from "../Properties/Comments/Item";
+import Info from "./Info";
+import Comment from "./Comments/Item";
 import {FlatList, Platform, StatusBar, StyleSheet, View} from "react-native";
 import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 
 const Property = ({property, comments}) => {
     const {isLoading, errors, items} = comments;
+    console.log(errors);
     if(isLoading) return <Loading/>;
     if(errors) return <Error/>;
     return (

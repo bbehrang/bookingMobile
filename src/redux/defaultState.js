@@ -13,6 +13,7 @@ export const defaultState = {
         item: null
     },
     comments : {
+        isAdding: false,
         isLoading: true,
         errors: null,
         items: []

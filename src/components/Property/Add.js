@@ -23,9 +23,6 @@ const Add = props => {
             allowsEditing: true,
             quality: 1
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
             setCover(result.uri);
         }

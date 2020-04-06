@@ -1,5 +1,6 @@
 import {defaultState} from "../defaultState";
 import {
+    ADD_COMMENT, ADD_COMMENT_ERROR, ADD_COMMENT_SUCCESS,
     FETCH_COMMENTS,
     FETCH_COMMENTS_ERROR,
     FETCH_COMMENTS_SUCCESS,
@@ -10,10 +11,10 @@ import {
 import produce from "immer";
 
 export default function commentsReducer(state = defaultState.comments, action) {
-    console.log(action.type);
     return produce(state, draft => {
         switch (action.type) {
             case FETCH_COMMENTS: {
+                draft.errors = null;
                 draft.isLoading = true;
                 break;
             }
@@ -25,6 +26,22 @@ export default function commentsReducer(state = defaultState.comments, action) {
             }
             case FETCH_COMMENTS_ERROR: {
                 draft.isLoading = false;
+                draft.errors = action.payload;
+                break;
+            }
+            case ADD_COMMENT: {
+                draft.errors = null;
+                draft.isAdding = true;
+                break;
+            }
+            case ADD_COMMENT_SUCCESS:{
+                draft.isAdding = false;
+                draft.items.push(action.payload);
+                draft.errors = null;
+                break;
+            }
+            case ADD_COMMENT_ERROR:{
+                draft.isAdding = false;
                 draft.errors = action.payload;
                 break;
             }
