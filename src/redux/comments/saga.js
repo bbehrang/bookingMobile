@@ -18,7 +18,19 @@ function* fetchPropertyComments({payload}){
         yield put({type:FETCH_COMMENTS_ERROR, payload: e});
     }
 }
-
+function* addPropertyComment({payload}){
+    try{
+        const {id, data} = payload;
+        const comment = yield yield call(Api.sendRequest, `/properties/${id}/comments`, `post`, data);
+        yield put({type: ADD_COMMENT_SUCCESS, payload: comment.data});
+    }
+    catch (e) {
+        if(e.response && e.response.status === 401){
+            yield put({type:ADD_COMMENT_ERROR, payload: {status: 401}});
+        }
+        yield put({type:ADD_COMMENT_ERROR, payload: e});
+    }
+}
 export default function* commentsSaga() {
-    yield takeLatest(FETCH_COMMENTS, fetchPropertyComments);
+    yield all([takeLatest(FETCH_COMMENTS, fetchPropertyComments), takeLatest(ADD_COMMENT, addPropertyComment)]);
 }

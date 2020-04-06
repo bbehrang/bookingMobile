@@ -11,7 +11,7 @@ const Property = ({property}) => {
     const dispatch = useDispatch();
     useEffect(() => {
         if(item){
-            if(item.id !== id){
+            if((item.id !== id) || errors || comments.errors){
                 dispatch(fetchProperty(id));
                 dispatch(fetchPropertyComments(id));
             }
@@ -21,7 +21,7 @@ const Property = ({property}) => {
             dispatch(fetchPropertyComments(id));
         }
     },[id]);
-    if(item && (item.id !== id)){
+    if(item && (item.id !== id)){ //prevents property screen flicker before loading a new one
         return <Loading/>;
     }
     return (

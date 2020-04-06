@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Image, Text, StyleSheet, TouchableOpacity, View} from "react-native";
 import ThemeButton from "../Common/ThemeButton";
-import CommentList from './Comments/List';
 import Add from "./Comments/Add";
-import Loading from "../Common/Loading";
-import Error from "../Common/Error";
+import AddComment from "../../containers/AddComment";
 
 const Info = ({property}) => {
     const {cover_image_url, id, name, description} = property;
@@ -32,7 +30,7 @@ const Info = ({property}) => {
                 <ThemeButton title='Reserve' customStyles={styles.button}/>
             </View>
             <Text style={styles.sectionTitle}>Comments</Text>
-            <Add id={id} />
+            <AddComment id={id} />
 
         </>
     );
