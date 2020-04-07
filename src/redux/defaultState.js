@@ -17,5 +17,10 @@ export const defaultState = {
         isLoading: true,
         errors: null,
         items: []
+    },
+    user: {
+        isLoading: false,
+        profile: null,
+        errors: null
     }
 };

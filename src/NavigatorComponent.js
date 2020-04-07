@@ -11,16 +11,27 @@ import SignUpScreenSecond from "./screens/authorization/SignUpScreenSecond";
 import HomeScreen from "./screens/HomeScreen";
 import PropertiesScreen from "./screens/PropertiesScreen";
 import PropertyScreen from "./screens/PropertyScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
 const PropertyStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+
 const PropertiesNavigator = () => {
     return (
         <PropertyStack.Navigator initialRouteName="Properties" headerMode='none'>
             <PropertyStack.Screen name="Properties" component={PropertiesScreen}/>
             <PropertyStack.Screen name="Property" component={PropertyScreen}/>
         </PropertyStack.Navigator>
+    );
+};
+const ProfileNavigator = () => {
+    return (
+        <ProfileStack.Navigator initialRouteName="Login" headerMode='none'>
+            <ProfileStack.Screen name="Login" component={SignInScreen}/>
+            <ProfileStack.Screen name="Register" component={RegisterScreen}/>
+        </ProfileStack.Navigator>
     );
 };
 
@@ -53,7 +64,7 @@ const BottomTabNavigator = () => {
             >
                 <Tab.Screen name="Search" component={PropertiesNavigator}/>
                 <Tab.Screen name="Reservations" component={PropertiesScreen}/>
-                <Tab.Screen name="Profile" component={HomeScreen}/>
+                <Tab.Screen name="Profile" component={ProfileNavigator}/>
                 <Tab.Screen name="More" component={HomeScreen}/>
             </Tab.Navigator>
         )

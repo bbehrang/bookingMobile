@@ -1,4 +1,4 @@
-import defaultState from "../defaultState";
+import {defaultState} from "../defaultState";
 import {
     SIGN_IN,
     SIGN_IN_SUCCESS,
@@ -6,111 +6,70 @@ import {
     SIGN_OUT,
     SIGN_OUT_SUCCESS,
     SIGN_OUT_ERROR,
-    SIGN_UP,
-    SIGN_UP_SUCCESS,
-    SIGN_UP_ERROR,
+    SIGN_UP_FIRST_STEP,
+    SIGN_UP_FIRST_STEP_SUCCESS,
+    SIGN_UP_FIRST_STEP_ERROR,
     UPDATE_USER,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_ERROR,
+    UPDATE_USER_ERROR, SIGN_UP_VERIFY, SIGN_UP_VERIFY_SUCCESS, SIGN_UP_VERIFY_ERROR, HIDE_USER_ERROR,
 
 } from "./actionTypes";
+import produce from "immer";
 
 export default function userReducer(state = defaultState.user, action) {
-    switch (action.type) {
-        case SIGN_IN: {
-            return {
-                ...state,
-                loading: true
-            };
+    console.log(action.type);
+    return produce(state, draft => {
+        switch (action.type) {
+            case SIGN_IN:{
+                draft.isLoading = true;
+                break;
+            }
+            case SIGN_IN_SUCCESS:{
+                draft.isLoading = false;
+                break;
+            }
+            case SIGN_IN_ERROR:{
+                draft.isLoading = false;
+                draft.errors = action.payload;
+                break;
+            }
+            case SIGN_UP_FIRST_STEP:{
+                draft.isLoading = true;
+                draft.wasRegistered = false;
+                break;
+            }
+            case SIGN_UP_FIRST_STEP_SUCCESS:{
+                draft.isLoading = false;
+                draft.errors = null;
+                draft.profile = action.payload;
+                break;
+            }
+            case SIGN_UP_FIRST_STEP_ERROR: {
+                draft.isLoading = false;
+                draft.errors = action.payload;
+                break;
+            }
+            case SIGN_UP_VERIFY:{
+                draft.isLoading = true;
+                draft.wasRegistered = false;
+                break;
+            }
+            case SIGN_UP_VERIFY_SUCCESS:{
+                draft.isLoading = false;
+                draft.errors = null;
+                draft.profile = action.payload;
+                break;
+            }
+            case SIGN_UP_VERIFY_ERROR: {
+                draft.isLoading = false;
+                draft.errors = action.payload;
+                break;
+            }
+            case HIDE_USER_ERROR:{
+                draft.errors = null;
+                break;
+            }
+
         }
-        case SIGN_IN_SUCCESS: {
-            return {
-                ...state,
-                authToken: action.payload.authToken,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                userName: action.payload.userName,
-                loading: false,
-                error: false
-            };
-        }
-        case SIGN_IN_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error
-            };
-        }
-        case SIGN_OUT: {
-            return {
-                ...state,
-                loading: true
-            };
-        }
-        case SIGN_OUT_SUCCESS: {
-            return {
-                ...state,
-                authToken: action.payload.authToken,
-                loading: false
-            };
-        }
-        case SIGN_OUT_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error
-            };
-        }
-        case SIGN_UP: {
-            return {
-                ...state,
-                loading: true
-            };
-        }
-        case SIGN_UP_SUCCESS: {
-            return {
-                ...state,
-                authToken: action.payload.authToken,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                userName: action.payload.userName,
-                loading: false
-            };
-        }
-        case SIGN_UP_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error
-            };
-        }
-        case UPDATE_USER: {
-            return {
-                ...state,
-                loading: true
-            };
-        }
-        case UPDATE_USER_SUCCESS: {
-            return {
-                ...state,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                userName: action.payload.userName,
-                loading: false
-            };
-        }
-        case UPDATE_USER_ERROR: {
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error
-            };
-        }
-        default:
-        {
-            return {
-                ...state
-            };
-        }
-    }
+    });
 }

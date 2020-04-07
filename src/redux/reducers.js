@@ -8,5 +8,6 @@ export default combineReducers({
     font,
     properties,
     property,
-    comments
+    comments,
+    user
 });
