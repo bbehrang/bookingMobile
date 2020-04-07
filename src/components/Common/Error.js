@@ -1,11 +1,29 @@
 import React from 'react';
-import {Text, View, StyleSheet} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-const Error = props => {
+const Error = ({message, pressHandler}) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Something went wrong on our side!</Text>
-            <Text style={styles.body}>Try again and if problem persists, please kindly contact our support team</Text>
+            <Text style={styles.title}>Something went wrong!</Text>
+            {
+                pressHandler ?
+                    <View style={styles.back}>
+                        <TouchableOpacity style={styles.arrow} onPress={pressHandler}>
+                            <Image style={styles.arrowPic}
+                                   source={require('../../../assets/back.png')}
+
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    : null
+            }
+            {
+                message ?
+                    <Text style={styles.body}>{message}</Text> :
+                    <Text style={styles.body}>Try again and if problem persists, please kindly contact our support
+                        team</Text>
+            }
+
         </View>
     );
 };
@@ -15,13 +33,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    title:{
-        fontFamily:'montserratBold'
+    title: {
+        fontFamily: 'montserratBold'
     },
-    body:{
+    body: {
         fontFamily: 'montserratMed',
         marginVertical: 20,
-        marginHorizontal:20,
+        marginHorizontal: 20,
         textAlign: 'center'
     }
 });

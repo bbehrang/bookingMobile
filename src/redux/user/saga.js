@@ -1,19 +1,25 @@
-import { put, all, takeLatest } from "redux-saga/effects";
-import { call } from "redux-saga/effects";
-import * as actionTypes from "./actionTypes";
-import api from "../../services/Api";
+import {all, call, put, takeLatest} from "redux-saga/effects";
+import {
+    SIGN_IN,
+    SIGN_IN_ERROR,
+    SIGN_IN_SUCCESS,
+    SIGN_UP,
+    SIGN_UP_ERROR,
+    SIGN_UP_FIRST_STEP, SIGN_UP_FIRST_STEP_ERROR, SIGN_UP_FIRST_STEP_SUCCESS,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_VERIFY,
+    SIGN_UP_VERIFY_ERROR,
+    SIGN_UP_VERIFY_SUCCESS
+} from "./actionTypes";
+import Amplify, {Auth} from "aws-amplify";
+import awsconfig from "../../../aws-exports";
 
-function* signInUser(action) {
+function* signIn({payload}) {
     try {
-        const response = yield call(api.sendRequest, "api/user?login="+action.payload.login+"&password="+action.payload.password, "get");
-       //  let response={
-       //      firstName:"Olga",
-       //      lastName:"Yashan",
-       //      userName:"olgayashan",
-       //      authToken:""
-       //  };
+        const response = yield call(Auth.signIn, payload);
+        console.log(response);
         yield put({
-            type: actionTypes.SIGN_IN_SUCCESS,
+            type: SIGN_IN_SUCCESS,
             payload: {
                 firstName: response.firstName,
                 lastName: response.lastName,
@@ -23,76 +29,49 @@ function* signInUser(action) {
             }
         });
     } catch (err) {
+        console.log(err);
         yield put({
-            type: actionTypes.SIGN_IN_ERROR,
-            payload: {
-                error: err.response.data
-            }
+            type: SIGN_IN_ERROR,
+            payload: err
         });
     }
 }
 
-function* signUpUser(action) {
-
+function* signUp({payload}) {
     try {
-        const response = yield call(api.sendRequest, "api/user/", "post",action.payload);
-        yield put({
-            type: actionTypes.SIGN_UP_SUCCESS,
-            payload: {
-                user: response.data
-            }
-        });
-    } catch (err) {
-        yield put({
-            type: actionTypes.SIGN_UP_ERROR,
-            payload: {
-                error: err.response.data
-            }
-        });
+        const {fields} = payload;
+        const {email : username, given_name, family_name, password} = fields;
+        const response = yield call(
+            [Auth, 'signUp'],
+            {
+                username: username.toLowerCase(),
+                password,
+                attributes:{
+                    given_name,
+                    family_name,
+                }
+            });
+        if(response.code && response.message) //Sign up error response
+            yield put({type: SIGN_UP_FIRST_STEP_ERROR, payload: {message: response.message}});
+        else yield put({type: SIGN_UP_FIRST_STEP_SUCCESS, payload: response});
+    } catch (e) {
+        console.log(e);
+        yield put({type: SIGN_UP_FIRST_STEP_ERROR, payload: e});
+    }
+}
+function* verify({payload}){
+    const {username, code} = payload;
+    try{
+        const response = yield call([Auth, 'confirmSignUp'], {username, code});
+        console.log(response);
+        yield put({type: SIGN_UP_VERIFY_SUCCESS, payload: response});
+    } catch (e) {
+        console.log(e);
+        yield put({type: SIGN_UP_VERIFY_ERROR, payload: e});
     }
 }
 
-function* signOutUser(action) {
-
-    try {
-        const response = yield call(api.sendRequest, "api/user/", "post",action.payload);
-        yield put({
-            type: actionTypes.SIGN_OUT_SUCCESS,
-            payload: {
-                user: response.data
-            }
-        });
-    } catch (err) {
-        yield put({
-            type: actionTypes.SIGN_OUT_ERROR,
-            payload: {
-                error: err.response.data
-            }
-        });
-    }
-}
-
-
-function* updateUser(action) {
-    try {
-
-        const response = yield call(api.sendRequest, "api/user/products?login="+action.payload.arr.login+"&password="+action.payload.arr.password, "put", action.payload.arr);
-        yield put({
-            type: actionTypes.UPDATE_USER_SUCCESS,
-            payload: {
-                user: response.data
-            }
-        });
-    } catch (err) {
-        yield put({
-            type: actionTypes.UPDATE_USER_ERROR,
-            payload: {
-                error: err.response.data
-            }
-        });
-    }
-}
 
 export default function* userSaga() {
-    yield all([takeLatest(actionTypes.SIGN_IN, signInUser),takeLatest(actionTypes.UPDATE_USER, updateUser),takeLatest(actionTypes.SIGN_UP, signUpUser),takeLatest(actionTypes.SIGN_OUT, signOutUser)]);
+    yield all([takeLatest(SIGN_IN, signIn), takeLatest(SIGN_UP_FIRST_STEP, signUp), takeLatest(SIGN_UP_VERIFY, verify)]);
 }
