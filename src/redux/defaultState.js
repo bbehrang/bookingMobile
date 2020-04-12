@@ -12,7 +12,7 @@ export const defaultState = {
         errors: null,
         item: null
     },
-    comments : {
+    comments: {
         isAdding: false,
         isLoading: true,
         errors: null,
@@ -20,7 +20,9 @@ export const defaultState = {
     },
     user: {
         isLoading: false,
+        errors: null,
         profile: null,
-        errors: null
+        token: null
+
     }
 };

@@ -4,15 +4,13 @@ import {FlatList, Platform, RefreshControl, StatusBar, StyleSheet, TouchableOpac
 import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 
-const List = ({properties, isLoading, errors, refresh, navigation}) => {
+const List = ({properties, refresh, openProperty}) => {
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = async () => {
       setRefreshing(true);
       await refresh();
       setRefreshing(false);
     };
-    if(isLoading) return <Loading/>;
-    if(errors) return <Error/>;
     return (
         <FlatList style={styles.list}
                   data={properties}
@@ -21,11 +19,7 @@ const List = ({properties, isLoading, errors, refresh, navigation}) => {
                   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
                   renderItem={({item}) =>
                       <TouchableOpacity style={styles.item}
-                                        onPress={() =>
-                                            navigation.navigate('Search', {
-                                                screen: "Property",
-                                                params: {property: item}
-                                            })}>
+                                        onPress={() => openProperty(item)}>
                           <Item item={item}/>
                       </TouchableOpacity>}
         />

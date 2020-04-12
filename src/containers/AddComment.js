@@ -6,9 +6,10 @@ import Loading from "../components/Common/Loading";
 
 const AddComment = ({id}) => {
     const isAdding = useSelector(state => state.comments.isAdding);
+    const {token} = useSelector(state => state.user);
     const dispatch = useDispatch();
-    const submit = (data) => {
-      dispatch(addPropertyComment(id, data));
+    const submit = (text) => {
+      dispatch(addPropertyComment(token, id, text));
     };
     if(isAdding){
         return <Loading message={'Your comment is being added...'} />

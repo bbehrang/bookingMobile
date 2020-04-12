@@ -4,14 +4,12 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import {Ionicons} from "@expo/vector-icons";
 
-import SignInScreen from "./screens/authorization/SignInScreen";
-import SignUpScreenFirst from "./screens/authorization/SignUpScreenFirst";
-import SignUpScreenSecond from "./screens/authorization/SignUpScreenSecond";
-
 import HomeScreen from "./screens/HomeScreen";
 import PropertiesScreen from "./screens/PropertiesScreen";
 import PropertyScreen from "./screens/PropertyScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -29,7 +27,8 @@ const PropertiesNavigator = () => {
 const ProfileNavigator = () => {
     return (
         <ProfileStack.Navigator initialRouteName="Login" headerMode='none'>
-            <ProfileStack.Screen name="Login" component={SignInScreen}/>
+            <ProfileStack.Screen name="Login" component={LoginScreen}/>
+            <ProfileStack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
             <ProfileStack.Screen name="Register" component={RegisterScreen}/>
         </ProfileStack.Navigator>
     );
@@ -38,7 +37,7 @@ const ProfileNavigator = () => {
 const BottomTabNavigator = () => {
         return (
             <Tab.Navigator
-                initialRouteName="Search"
+                initialRouteName="Profile"
                 screenOptions={({route}) => ({
                     tabBarIcon: ({focused, color, size}) => {
                         let iconName;
@@ -80,7 +79,7 @@ const NavigatorComponent = (props) => {
                             <>
                                 <AppStack.Screen
                                     name="SignInScreen"
-                                    component={SignInScreen}
+                                    component={LoginScreen}
                                 />
                                 <AppStack.Screen
                                     name="SignUpScreenFirst"
