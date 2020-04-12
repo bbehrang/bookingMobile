@@ -20,11 +20,13 @@ function* fetchPropertyComments({payload}){
 }
 function* addPropertyComment({payload}){
     try{
-        const {id, data} = payload;
-        const comment = yield yield call(Api.sendRequest, `/properties/${id}/comments`, `post`, data);
+        const {token, id, text} = payload;
+        const comment = yield call(Api.sendRequest, `/properties/${id}/comments`, `post`, token, {text});
+        console.log(comment);
         yield put({type: ADD_COMMENT_SUCCESS, payload: comment.data});
     }
     catch (e) {
+        console.log(e);
         if(e.response && e.response.status === 401){
             yield put({type:ADD_COMMENT_ERROR, payload: {status: 401}});
         }

@@ -8,12 +8,14 @@ class Api {
 
     }
 
-    sendRequest = (url, type, payload) => {
-
+    sendRequest = (url, type, token, payload) => {
         return this.adapter.request({
             url:url,
             method: type,
-            data: payload
+            data: payload,
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            }
         });
     };
 }

@@ -7,7 +7,6 @@ import Error from "../Common/Error";
 
 const Property = ({property, comments}) => {
     const {isLoading, errors, items} = comments;
-    console.log(errors);
     if(isLoading) return <Loading/>;
     if(errors) return <Error/>;
     return (

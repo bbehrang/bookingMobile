@@ -6,10 +6,10 @@ export function fetchPropertyComments(id){
         payload: id
     }
 }
-export function addPropertyComment(id, data){
+export function addPropertyComment(token, id, text){
     return {
         type: ADD_COMMENT,
-        payload: { id, data}
+        payload: { token, id, text}
     }
 }
 
