@@ -1,63 +1,70 @@
-import React, {useEffect, useState} from 'react';
-import Register from "../components/Register/Register";
-import {Button, Platform, ScrollView, StatusBar, StyleSheet, Text, TextInput} from "react-native";
-import {signInAsync} from "expo-google-sign-in";
-import { Auth } from 'aws-amplify';
-const LoginScreen = ({route, navigation}) => {
-    const SignIn = async () => {
-        try {
-            const user = await Auth.signIn(username, password);
-                console.log(user);
-        } catch (err) {
-            console.log(err);
-            if (err.code === 'UserNotConfirmedException') {
-                // The error happens if the user didn't finish the confirmation step when signing up
-                // In this case you need to resend the code and confirm the user
-                // About how to resend the code and confirm the user, please check the signUp part
-            } else if (err.code === 'PasswordResetRequiredException') {
-                // The error happens when the password is reset in the Cognito console
-                // In this case you need to call forgotPassword to reset the password
-                // Please check the Forgot Password part.
-            } else if (err.code === 'NotAuthorizedException') {
-                // The error happens when the incorrect password is provided
-            } else if (err.code === 'UserNotFoundException') {
-                // The error happens when the supplied username/email does not exist in the Cognito user pool
-            } else {
-                console.log(err);
-            }
-        }
-    };
-    const [username, setUsername] = useState('');
-    const [password, setPass] = useState('');
-    return (
-            <ScrollView style={styles.list}>
-                <Text>username</Text>
-                <TextInput style={styles.item} onChangeText={text => setUsername(text)}
-                           value={username}/>
-                <Text>password</Text>
-                <TextInput style={styles.item} onChangeText={text => setPass(text)}
-                           value={password}/>
-                <Button title={'submit'} onPress={SignIn}/>
+import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import { useFocusEffect } from '@react-navigation/native';
+import Login from '../components/User/Login';
+import {hideUserError, setUserError, signInGoogle, signInUser} from "../redux/user/actions";
+import Error from "../components/Common/Error";
+import Loading from "../components/Common/Loading";
+import * as WebBrowser from "expo-web-browser";
+import * as AuthSession from 'expo-auth-session';
+import axios from "axios";
 
-            </ScrollView>
+const LoginScreen = ({navigation}) => {
+    useFocusEffect(() => {
+        //if(token) navigation.navigate('Search');
+    });
+    const {token, errors, isLoading} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const submitLogin = ({email, password}) => {
+        const username = email ? email.trim() : null;
+        return dispatch(signInUser(username, password));
+    };
+    const loginGoogle = async () => {
+        let redirectUrl = AuthSession.getRedirectUrl();
+
+        let result = await AuthSession.startAsync({
+            authUrl:
+                `https://booking-user-pool-domain-customer.auth.eu-central-1.amazoncognito.com/oauth2/authorize?identity_provider=Google&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=CODE&client_id=5vpqdi2hlkvqjsjqd3gsama9c8&scope=email%20profile`
+        });
+
+        if (result.type !== 'success') {
+            alert('Your login was not successful');
+            return;
+        }
+        let accessToken = result.params.code;
+
+        const params = new URLSearchParams();
+        params.append('grant_type', 'authorization_code');
+        params.append('client_id', '5vpqdi2hlkvqjsjqd3gsama9c8');
+        params.append('code', accessToken);
+        params.append('redirect_uri', 'https://auth.expo.io/@bbehrang/Bookingdesc');
+
+        axios({
+            method: 'post',
+            url: 'https://booking-user-pool-domain-customer.auth.eu-central-1.amazoncognito.com/oauth2/token',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                //handle success
+                console.log(response);
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            });
+    };
+    const loginBackHandler = () => {
+        dispatch(hideUserError());
+        navigation.navigate('Profile');
+    };
+    if(errors) return <Error pressHandler={loginBackHandler}
+                             message={errors.message ? errors.message : null} />;
+    if(isLoading) return <Loading/>;
+    if(token) navigation.navigate('Search');
+    return (
+        <Login navigation={navigation} submit={submitLogin} loginGoogle={loginGoogle}/>
     );
 };
-const styles = StyleSheet.create({
-    list: {
-        paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-        flex: 1,
-        flexGrow: 1,
-        backgroundColor: "#E5E5E5",
 
-    },
-    item: {
-        flex: 1,
-        height: 40,
-        marginHorizontal: 33,
-        marginVertical: 18,
-        shadowColor: 'rgba(0, 0, 0, 0.14)',
-        elevation: Platform.OS === 'ios' ? 0 : 3,
-        borderRadius: 5
-    }
-});
 export default LoginScreen;

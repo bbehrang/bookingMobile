@@ -1,9 +1,10 @@
 import React from 'react';
 import {
     Image,
-    KeyboardAvoidingView, Platform,
-    RefreshControl,
-    ScrollView, StatusBar,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StatusBar,
     StyleSheet,
     Text,
     TextInput,
@@ -14,7 +15,7 @@ import {Formik} from "formik";
 import * as Yup from "yup";
 import {Button} from "react-native-paper";
 
-const Login = ({navigation, submit}) => {
+const Login = ({navigation, submit, loginGoogle}) => {
     const signIn = (values, actions) => {
         submit(values);
     };
@@ -29,6 +30,7 @@ const Login = ({navigation, submit}) => {
                         initialValues={{email: '', password: ''}}
                         validationSchema={Yup.object({
                             email: Yup.string()
+                                .trim()
                                 .email('Invalid Email')
                                 .required('Required email'),
                             password: Yup.string()
@@ -46,6 +48,7 @@ const Login = ({navigation, submit}) => {
                                     value={props.values.email}
                                     placeholder="Email Address"
                                     style={styles.input}
+                                    autoCapitalize='none'
                                 />
                                 {props.touched.email && props.errors.email ? (
                                     <Text style={styles.error}>{props.errors.email}</Text>
@@ -74,12 +77,23 @@ const Login = ({navigation, submit}) => {
                             </View>
                         )}
                     </Formik>
-                    <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                        <Text style={styles.question}>Don’t have any account yet?</Text>
-                        <Text style={styles.question}>Sign
-                            up here</Text>
-                    </TouchableOpacity>
+                    <Button
+                        color="#009688"
+                        mode="contained"
+                        style={[styles.button, styles.google]}
+                        onPress={loginGoogle}>
+                        <Text style={{lineHeight: 30}}>Sign in with google</Text>
+                    </Button>
+                    <View style={styles.userActions}>
+                        <TouchableOpacity style={{flex: 1}} onPress={() => navigation.navigate('ForgotPassword')}>
+                            <Text style={styles.question}>Forgot Password?</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex: 1}} onPress={() => navigation.navigate('Register')}>
+                            <Text style={styles.question}>Sign up</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -93,29 +107,39 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        alignItems:'center',
-        paddingBottom:10,
+        alignItems: 'center',
+        paddingBottom: 10,
     },
-    logo:{
+    logo: {
         height: 100,
         width: 100,
     },
-    logo_text:{
+    logo_text: {
         color: '#575757',
         fontSize: 20,
         textAlign: 'center',
         marginBottom: 15,
         fontFamily: 'montserratMed',
     },
+    google: {
+        width: 280,
+        backgroundColor: '#009688',
+        fontFamily: 'montserratBold',
+        borderRadius: 5,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between'
+
+    },
     title: {
-        margin: 24,
+        margin: 10,
         fontSize: 14,
         textAlign: 'center',
         fontFamily: 'montserratBold',
-        color:'#181818'
+        color: '#181818'
     },
     error: {
-        marginTop:5,
+        marginTop: 5,
         fontSize: 10,
         color: '#FE6A6A',
         fontFamily: 'montserratBold',
@@ -131,27 +155,28 @@ const styles = StyleSheet.create({
         fontFamily: 'montserratBold',
 
     },
-    label:{
+    label: {
         fontSize: 13,
         fontWeight: 'normal',
         marginTop: 15,
-        color:'#181818',
+        color: '#181818',
         fontFamily: 'montserratBold',
 
     },
-    button:{
+    button: {
         borderRadius: 5,
-        marginBottom: 30,
+        marginBottom: 0,
         marginTop: 20,
         fontFamily: 'montserratBold',
     },
-    question:{
+    question: {
         color: '#009688',
         fontSize: 14,
         fontWeight: 'bold',
         textAlign: 'center',
         fontFamily: 'montserratMed',
         lineHeight: 16,
-    }
+    },
+    userActions: {flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginVertical: 10}
 });
 export default Login;
