@@ -10,6 +10,7 @@ import PropertyScreen from "./screens/PropertyScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import LoginScreen from "./screens/LoginScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -64,7 +65,7 @@ const BottomTabNavigator = () => {
                 <Tab.Screen name="Search" component={PropertiesNavigator}/>
                 <Tab.Screen name="Reservations" component={PropertiesScreen}/>
                 <Tab.Screen name="Profile" component={ProfileNavigator}/>
-                <Tab.Screen name="More" component={HomeScreen}/>
+                <Tab.Screen name="More" component={ProfileScreen}/>
             </Tab.Navigator>
         )
 };
