@@ -6,9 +6,7 @@ import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 
 const Property = ({property, comments}) => {
-    const {isLoading, errors, items} = comments;
-    if(isLoading) return <Loading/>;
-    if(errors) return <Error/>;
+    const {items} = comments;
     return (
         <FlatList
             ListHeaderComponent={<Info property={property}/>}

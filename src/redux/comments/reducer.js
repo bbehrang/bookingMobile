@@ -6,7 +6,7 @@ import {
     FETCH_COMMENTS_SUCCESS,
     FETCH_PROPERTY,
     FETCH_PROPERTY_ERROR,
-    FETCH_PROPERTY_SUCCESS
+    FETCH_PROPERTY_SUCCESS, HIDE_COMMENT_ERROR
 } from "./actionTypes";
 import produce from "immer";
 
@@ -43,6 +43,11 @@ export default function commentsReducer(state = defaultState.comments, action) {
             case ADD_COMMENT_ERROR:{
                 draft.isAdding = false;
                 draft.errors = action.payload;
+                break;
+            }
+            case HIDE_COMMENT_ERROR: {
+                console.log('deleting errors');
+                draft.errors = null;
                 break;
             }
         }

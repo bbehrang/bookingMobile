@@ -54,6 +54,7 @@ const RegisterFirstStep = ({fields, navigation, submitFirstStep}) => {
                                     value={props.values.email}
                                     placeholder="example@example.com"
                                     style={styles.input}
+                                    autoCapitalize='none'
                                 />
                                 {props.touched.email && props.errors.email ? (
                                     <Text style={styles.error}>{props.errors.email}</Text>

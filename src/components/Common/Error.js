@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, Keyboard, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 const Error = ({message, pressHandler, cleanUp}) => {
     useFocusEffect(
@@ -9,10 +9,10 @@ const Error = ({message, pressHandler, cleanUp}) => {
                 cleanUp ? cleanUp() : null;
             };
         }, [])
+
     );
     return (
         <View style={styles.container}>
-
                 <Text style={styles.title}>Something went wrong!</Text>
             {
                 message ?
@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
         fontFamily: 'montserratMed',
         marginVertical: 20,
         marginHorizontal: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+
     },
     back:{
         width: '100%',
-
     },
     arrow:{
         flexDirection: 'row',

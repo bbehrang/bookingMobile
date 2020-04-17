@@ -11,7 +11,7 @@ import {
 
 function* fetchPropertyComments({payload}){
     try{
-        const comments = yield yield call(Api.sendRequest, `/properties/${payload}/comments`, `get`);
+        const comments = yield call(Api.sendRequest, `/properties/${payload}/comments`, `get`);
         yield put({type: FETCH_COMMENTS_SUCCESS, payload: comments.data});
     }
     catch (e) {
@@ -21,16 +21,19 @@ function* fetchPropertyComments({payload}){
 function* addPropertyComment({payload}){
     try{
         const {token, id, text} = payload;
-        const comment = yield call(Api.sendRequest, `/properties/${id}/comments`, `post`, token, {text});
-        console.log(comment);
+        const comment = yield call(Api.sendRequest,
+            `/properties/${id}/comments`,
+            `post`,
+            {text},
+            {"Authorization" : `Bearer ${token}`});
         yield put({type: ADD_COMMENT_SUCCESS, payload: comment.data});
     }
     catch (e) {
-        console.log(e);
         if(e.response && e.response.status === 401){
-            yield put({type:ADD_COMMENT_ERROR, payload: {status: 401}});
+            yield put({type:ADD_COMMENT_ERROR,
+                payload: {status: e.response.status, message: 'Only registered users can post comments'}});
         }
-        yield put({type:ADD_COMMENT_ERROR, payload: e});
+        else yield put({type:ADD_COMMENT_ERROR, payload: e});
     }
 }
 export default function* commentsSaga() {

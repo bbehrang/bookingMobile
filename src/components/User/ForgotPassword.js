@@ -7,43 +7,52 @@ import {
     StatusBar,
     StyleSheet,
     Text,
-    TextInput, TouchableOpacity,
+    TextInput,
+    TouchableOpacity,
     View
 } from "react-native";
-import {Button} from "react-native-paper";
 import {Formik} from "formik";
 import * as Yup from "yup";
+import {Button} from "react-native-paper";
 
-const RegisterThirdStep = ({navigation, verify, resendCode}) => {
+const ForgotPassword = ({navigation, submit}) => {
     return (
         <KeyboardAvoidingView style={styles.containerWrapper}>
             <ScrollView>
                 <View style={styles.container}>
-                    <Image style={styles.logo} source={require('../../../../assets/Logo.png')}/>
+                    <Image style={styles.logo} source={require('../../../assets/Logo.png')}/>
                     <Text style={styles.logo_text}>BOOKING</Text>
-                    <Text style={styles.title}>Sign up</Text>
+                    <View style={styles.back}>
+                        <TouchableOpacity style={styles.arrow} onPress={()=>navigation.goBack()}>
+                            <Image style={styles.arrowPic}
+                                   source={require('../../../assets/back.png')}
+
+                            />
+                        </TouchableOpacity>
+                        <Text onPress={()=>navigation.navigate('Register')} style={styles.title}>Recover Password</Text>
+                    </View>
                     <Formik
-                        initialValues={{code: ''}}
+                        initialValues={{email: ''}}
                         validationSchema={Yup.object({
-                            code: Yup.string()
-                                .required('Code is required')
+                            email: Yup.string()
+                                .email('Invalid Email')
+                                .required('Required email')
                         })}
-                        onSubmit={(values) => {
-                            verify(values);
+                        onSubmit={(values, actions) => {
+                            submit(values);
                         }}>
                         {props => (
                             <View>
-                                <Text style={styles.label}>Verification code</Text>
+                                <Text style={styles.label}>Email</Text>
                                 <TextInput
-                                    onChangeText={props.handleChange('code')}
-                                    onBlur={props.handleBlur('code')}
-                                    value={props.values.password}
-                                    placeholder="Enter the verification code that was sent to your email"
+                                    onChangeText={props.handleChange('email')}
+                                    onBlur={props.handleBlur('email')}
+                                    value={props.values.email}
+                                    placeholder="Email Address"
                                     style={styles.input}
-                                    secureTextEntry
                                 />
-                                {props.touched.code && props.errors.code ? (
-                                    <Text style={styles.error}>{props.errors.code}</Text>
+                                {props.touched.email && props.errors.email ? (
+                                    <Text style={styles.error}>{props.errors.email}</Text>
                                 ) : null}
                                 <Button
                                     onPress={props.handleSubmit}
@@ -52,17 +61,13 @@ const RegisterThirdStep = ({navigation, verify, resendCode}) => {
                                     loading={props.isSubmitting}
                                     disabled={props.isSubmitting}
                                     style={styles.button}>
-                                    <Text style={{lineHeight: 30}}>Register</Text>
+                                    <Text style={{lineHeight: 30}}>Recover password</Text>
                                 </Button>
-                                <TouchableOpacity onPress={resendCode}>
-                                    <Text style={styles.question}>Didn't receive any code?</Text>
-                                    <Text style={styles.question} >Tap here to resend the code</Text>
-                                </TouchableOpacity>
                             </View>
-
                         )}
                     </Formik>
                 </View>
+
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -82,6 +87,23 @@ const styles = StyleSheet.create({
     logo: {
         height: 100,
         width: 100,
+    },
+    back:{
+        flex:1,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    arrow:{
+        height: 20,
+        width: 20,
+        position: 'absolute',
+        left:70,
+    },
+    arrowPic:{
+        height: 20,
+        width: 20,
     },
     logo_text: {
         color: '#575757',
@@ -137,4 +159,4 @@ const styles = StyleSheet.create({
         lineHeight: 16,
     }
 });
-export default RegisterThirdStep;
+export default ForgotPassword;
