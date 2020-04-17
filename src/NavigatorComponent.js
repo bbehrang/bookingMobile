@@ -31,6 +31,7 @@ const ProfileNavigator = () => {
             <ProfileStack.Screen name="Login" component={LoginScreen}/>
             <ProfileStack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
             <ProfileStack.Screen name="Register" component={RegisterScreen}/>
+            <ProfileStack.Screen name="ProfileHome" component={ProfileScreen}/>
         </ProfileStack.Navigator>
     );
 };
