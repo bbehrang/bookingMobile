@@ -1,12 +1,30 @@
-import React from 'react';
-import List from "../components/Properties/List";
-import {Text, View} from "react-native";
-import Header from "../components/Header/Header";
-import Properties from "../containers/Properties";
+import React, {useEffect} from 'react';
+import Properties from '../components/Properties/List';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchProperties} from "../redux/properties/actions";
+import Loading from "../components/Common/Loading";
+import Error from "../components/Common/Error";
+const PropertiesScreen = ({navigation}) => {
+    const {items, isLoading, errors} = useSelector(state => state.properties);
+    const dispatch = useDispatch();
 
-const PropertiesScreen = ({route, navigation}) => {
+    useEffect(() => {
+        items && items.length === 0 ? dispatch(fetchProperties()) : null;
+    });
+
+    const openProperty = (item) => {
+        navigation.navigate('Search', {
+            screen: "Property",
+            params: {property: item}
+        })
+    };
+    if(isLoading) return <Loading/>;
+    if(errors) return <Error/>;
     return (
-        <Properties navigation={navigation}/>
+        <Properties properties={items}
+                    navigation={navigation}
+                    //refresh={() => dispatch(fetchProperties())}
+                    openProperty = {openProperty}/>
     );
 };
 

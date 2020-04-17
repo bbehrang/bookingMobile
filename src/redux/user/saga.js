@@ -118,12 +118,12 @@ function* signOut() {
 }
 function* verify({payload}){
     const {username, code} = payload;
-    console.log(payload);
-    console.log(username, typof(username));
     try{
         const response = yield call([Auth, 'confirmSignUp'], username, code);
         console.log(response);
-        yield put({type: SIGN_UP_VERIFY_SUCCESS, payload: response});
+        if(response.code && response.message) //Sign up error response
+            yield put({type: SIGN_UP_VERIFY_ERROR, payload: {message: response.message}});
+        else yield put({type: SIGN_UP_VERIFY_SUCCESS, payload: response});
     } catch (e) {
         console.log(e);
         yield put({type: SIGN_UP_VERIFY_ERROR, payload: e});
