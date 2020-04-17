@@ -5,11 +5,11 @@ import {Ionicons} from "@expo/vector-icons";
 import NavigatorComponent from "../NavigatorComponent";
 import {loadFonts} from "../redux/font/actions";
 import Loading from "../components/Common/Loading";
+import {AppLoading} from "expo";
 
 const Navigator = () => {
 
-    const isFontLoaded = useSelector(state => state.font);
-    const dispatch = useDispatch();
+    const [font, setFont] = useState(false);
     useEffect(() => {
         async function loadFontsAsync(){
             await Font.loadAsync({
@@ -17,14 +17,12 @@ const Navigator = () => {
                 'montserratMed': require('../../assets/fonts/Montserrat-Medium.ttf'),
                 'montserratBold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
             });
+            setFont(true);
         }
         loadFontsAsync();
-        dispatch(loadFonts(
-            Font.isLoaded('ionicons')
-            && Font.isLoaded('montserratMed')
-            && Font.isLoaded('montserratBold')));
-    },[]);
-    return isFontLoaded ? <NavigatorComponent/> : <Loading/>;
+
+    },[font]);
+    return font ? <NavigatorComponent isBitch={true}/> : <Loading/>;
 
 };
 
