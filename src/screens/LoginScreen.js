@@ -23,7 +23,7 @@ const LoginScreen = ({navigation}) => {
     };
     const loginGoogle = async () => {
         let redirectUrl = AuthSession.getRedirectUrl();
-
+        console.log(redirectUrl);
         let result = await AuthSession.startAsync({
             authUrl:
                 `https://booking-user-pool-domain-customer.auth.eu-central-1.amazoncognito.com/oauth2/authorize?identity_provider=Google&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=CODE&client_id=5vpqdi2hlkvqjsjqd3gsama9c8&scope=email%20profile%20openid`

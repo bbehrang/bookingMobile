@@ -7,7 +7,6 @@ import RegisterThirdStep from "../components/User/Register/RegisterThirdStep";
 import Loading from "../components/Common/Loading";
 import Error from "../components/Common/Error";
 import RegisterSuccess from "../components/User/Register/RegisterSuccess";
-import {useFocusEffect} from "@react-navigation/core";
 
 const Register = ({navigation}) => {
     const {token, isLoading, errors} = useSelector(state => state.user);
@@ -40,7 +39,7 @@ const Register = ({navigation}) => {
 
     };
     const resendCode = () => {
-        return dispatch(resendVerificationCode(fields.username));
+        return dispatch(resendVerificationCode(fields.email));
     };
     const hideError = () => {
         setStep(step - 1);

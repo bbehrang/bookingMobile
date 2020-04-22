@@ -14,7 +14,7 @@ import {Button} from "react-native-paper";
 import {Formik} from "formik";
 import * as Yup from "yup";
 
-const RegisterThirdStep = ({navigation, verify, resendCode}) => {
+const RegisterThirdStep = ({verify, resendCode}) => {
     return (
         <KeyboardAvoidingView style={styles.containerWrapper}>
             <ScrollView>
