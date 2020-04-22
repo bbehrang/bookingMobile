@@ -1,4 +1,4 @@
-import {all, call, put, takeLatest} from "redux-saga/effects";
+import {all, call, put, takeLatest, delay} from "redux-saga/effects";
 import {
     SIGN_IN,
     SIGN_IN_ERROR,
@@ -13,7 +13,7 @@ import {
     SIGN_UP_ERROR,
     SIGN_UP_FIRST_STEP,
     SIGN_UP_FIRST_STEP_ERROR,
-    SIGN_UP_FIRST_STEP_SUCCESS,
+    SIGN_UP_FIRST_STEP_SUCCESS, SIGN_UP_RESEND_CODE, SIGN_UP_RESEND_CODE_ERROR, SIGN_UP_RESEND_CODE_SUCCESS,
     SIGN_UP_SUCCESS,
     SIGN_UP_VERIFY,
     SIGN_UP_VERIFY_ERROR,
@@ -136,16 +136,30 @@ function* recoverPassword({payload}) {
         const response = yield call([Auth, 'forgotPassword'], username);
         console.log(response);
         if(response.code && response.message) //Sign up error response
-            yield put({type: SIGN_UP_FIRST_STEP_ERROR, payload: {message: response.message}});
+            yield put({type: SIGN_UP_RESEND_CODE_ERROR, payload: {message: response.message}});
         else
-            yield put({type: SIGN_IN_FORGOT_SUCCESS, payload: response});
+            yield put({type: SIGN_UP_RESEND_CODE_SUCCESS, payload: response});
+    } catch (e) {
+        console.log(e);
+        yield put({type: SIGN_UP_RESEND_CODE_ERROR, payload: e});
+    }
+
+}
+function* resendCode({payload}){
+    const {username} = payload;
+    yield delay(2000); //Help user understand that resend is in progress
+    try{
+        const response = yield call([Auth, 'resendSignUp'], username);
+        console.log(response);
+        if(response.code && response.message) //Sign up error response
+            yield put({type: SIGN_UP_RESEND_CODE_ERROR, payload: {message: response.message}});
+        else
+            yield put({type: SIGN_UP_RESEND_CODE_SUCCESS, payload: response});
     } catch (e) {
         console.log(e);
         yield put({type: SIGN_IN_FORGOT_ERROR, payload: e});
     }
-
 }
-
 export default function* userSaga() {
     yield all([
         takeLatest(SIGN_IN, signIn),
@@ -153,6 +167,7 @@ export default function* userSaga() {
         takeLatest(SIGN_UP_FIRST_STEP, signUp),
         takeLatest(SIGN_OUT, signOut),
         takeLatest(SIGN_UP_VERIFY, verify),
-        takeLatest(SIGN_IN_FORGOT, recoverPassword)
+        takeLatest(SIGN_IN_FORGOT, recoverPassword),
+        takeLatest(SIGN_UP_RESEND_CODE, resendCode)
     ]);
 }

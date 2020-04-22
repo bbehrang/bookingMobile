@@ -53,7 +53,7 @@ export function verifyUser(username, code) {
 export function resendVerificationCode(username){
     return {
         type: SIGN_UP_RESEND_CODE,
-        payload: username
+        payload: {username}
     };
 }
 export function updateUser(arr){

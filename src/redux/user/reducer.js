@@ -22,7 +22,7 @@ import {
     SIGN_IN_GOOGLE,
     SET_USER_ERROR,
     SIGN_IN_GOOGLE_SUCCESS,
-    SIGN_IN_GOOGLE_ERROR,
+    SIGN_IN_GOOGLE_ERROR, SIGN_UP_RESEND_CODE, SIGN_UP_RESEND_CODE_SUCCESS, SIGN_UP_RESEND_CODE_ERROR,
 
 } from "./actionTypes";
 import produce from "immer";
@@ -120,7 +120,20 @@ export default function userReducer(state = defaultState.user, action) {
             case SIGN_OUT_ERROR: {
                 draft.isLoading = false;
                 draft.token = null;
+                break;
+            }
+            case SIGN_UP_RESEND_CODE:{
+                draft.isLoading = true;
+                break;
+            }
+            case SIGN_UP_RESEND_CODE_SUCCESS:{
+                draft.errors = null;
+                draft.isLoading = false;
+                break;
+            }
+            case SIGN_UP_RESEND_CODE_ERROR:{
                 draft.errors = action.payload;
+                draft.isLoading = false;
                 break;
             }
             case HIDE_USER_ERROR: {
