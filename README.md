@@ -1,2 +1,2 @@
-# Web_Mobile
-The repository contains the code of the mobile application of the "Bug Booking" project
+# Booking mobile
+A react native mobile client project, working with aws amplify and hooked to an external api
